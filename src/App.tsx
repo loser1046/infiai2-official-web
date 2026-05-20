@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type RefObject } from 'react'
 import { DownloadModal } from './components/DownloadModal'
 import { GEO_PAGE_CONTENT_DATE_ISO } from './content/geoPageDate.generated'
 import { SITE } from './content/siteContent'
@@ -13,6 +13,36 @@ const ghostButton =
   'inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 text-sm font-bold text-white/90 backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-cyan-200/40 hover:bg-cyan-300/[0.08] active:translate-y-0'
 const sectionTitle = 'text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl'
 const sectionSub = 'mt-4 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base'
+
+const sceneLabels = ['Core', 'Network', 'Ability', 'Launch', 'Device', 'Trust', 'QA', 'Go']
+const threadPath = [
+  { x: 74, y: 52, scale: 0.92, rotate: -8 },
+  { x: 74, y: 70, scale: 0.66, rotate: 10 },
+  { x: 12, y: 76, scale: 0.56, rotate: -14 },
+  { x: 92, y: 28, scale: 0.58, rotate: 12 },
+  { x: 88, y: 78, scale: 0.6, rotate: 20 },
+  { x: 16, y: 72, scale: 0.54, rotate: -18 },
+  { x: 90, y: 28, scale: 0.56, rotate: 8 },
+  { x: 50, y: 78, scale: 0.58, rotate: 0 },
+]
+
+function interpolateThread(progress: number) {
+  const maxIndex = threadPath.length - 1
+  const clamped = Math.max(0, Math.min(progress, maxIndex))
+  const index = Math.min(Math.floor(clamped), maxIndex - 1)
+  const local = clamped - index
+  const eased = local * local * (3 - 2 * local)
+  const from = threadPath[index]
+  const to = threadPath[index + 1]
+  const mix = (a: number, b: number) => a + (b - a) * eased
+
+  return {
+    x: mix(from.x, to.x),
+    y: mix(from.y, to.y),
+    scale: mix(from.scale, to.scale),
+    rotate: mix(from.rotate, to.rotate),
+  }
+}
 
 function LocaleSwitcher() {
   const { locale, setLocale, t } = useLocale()
@@ -391,12 +421,152 @@ function SiteFooter() {
   )
 }
 
+function StoryThread({
+  activeScene,
+  threadRef,
+}: {
+  activeScene: number
+  threadRef: RefObject<HTMLDivElement | null>
+}) {
+  const label = sceneLabels[activeScene] ?? sceneLabels[0]
+  const initial = threadPath[0]
+
+  return (
+    <div
+      ref={threadRef}
+      className="lx-story-thread"
+      data-scene={activeScene}
+      style={{
+        '--thread-x': `${initial.x}%`,
+        '--thread-y': `${initial.y}%`,
+        '--thread-scale': initial.scale,
+        '--thread-rotate': `${initial.rotate}deg`,
+      } as CSSProperties}
+      aria-hidden="true"
+    >
+      <div className="lx-thread-rail" />
+      <div className="lx-thread-comet">
+        <span className="lx-thread-ring" />
+        <span className="lx-thread-core">
+          <span className="lx-mascot-head">
+            <span className="lx-mascot-face">
+              <span className="lx-mascot-eye lx-mascot-eye-left" />
+              <span className="lx-mascot-eye lx-mascot-eye-right" />
+              <span className="lx-mascot-smile" />
+            </span>
+            <span className="lx-mascot-mark">
+              <i />
+              <i />
+            </span>
+          </span>
+          <span className="lx-mascot-body">
+            <span className="lx-mascot-hand lx-mascot-hand-left" />
+            <span className="lx-mascot-hand lx-mascot-hand-right" />
+          </span>
+        </span>
+        <span className="lx-thread-label">{label}</span>
+      </div>
+      <span className="lx-thread-spark lx-thread-spark-a" />
+      <span className="lx-thread-spark lx-thread-spark-b" />
+      <span className="lx-thread-spark lx-thread-spark-c" />
+    </div>
+  )
+}
+
 function App() {
   const [downloadOpen, setDownloadOpen] = useState(false)
+  const [activeScene, setActiveScene] = useState(0)
+  const stageRef = useRef<HTMLElement | null>(null)
+  const activeSceneRef = useRef(0)
+  const wheelLockRef = useRef(false)
+  const lockTimerRef = useRef<number | null>(null)
+  const threadRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    activeSceneRef.current = activeScene
+  }, [activeScene])
+
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+
+    const getSections = () => Array.from(stage.querySelectorAll<HTMLElement>('.lx-story-section'))
+    const updateThread = (progress: number) => {
+      const thread = threadRef.current
+      if (!thread) return
+
+      const point = interpolateThread(progress)
+      thread.style.setProperty('--thread-x', `${point.x}%`)
+      thread.style.setProperty('--thread-y', `${point.y}%`)
+      thread.style.setProperty('--thread-scale', `${point.scale}`)
+      thread.style.setProperty('--thread-rotate', `${point.rotate}deg`)
+    }
+
+    const goToScene = (index: number) => {
+      const sections = getSections()
+      const targetIndex = Math.max(0, Math.min(index, sections.length - 1))
+      const target = sections[targetIndex]
+      if (!target) return
+
+      activeSceneRef.current = targetIndex
+      setActiveScene(targetIndex)
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      stage.scrollTo({ top: target.offsetTop, behavior: motion })
+    }
+
+    const unlock = () => {
+      wheelLockRef.current = false
+      if (lockTimerRef.current) {
+        window.clearTimeout(lockTimerRef.current)
+        lockTimerRef.current = null
+      }
+    }
+
+    const onWheel = (event: WheelEvent) => {
+      if (downloadOpen || window.matchMedia('(max-width: 900px)').matches) return
+      if (Math.abs(event.deltaY) < 18 || Math.abs(event.deltaY) < Math.abs(event.deltaX)) return
+
+      event.preventDefault()
+      if (wheelLockRef.current) return
+
+      wheelLockRef.current = true
+      const direction = event.deltaY > 0 ? 1 : -1
+      goToScene(activeSceneRef.current + direction)
+      lockTimerRef.current = window.setTimeout(unlock, 820)
+    }
+
+    const onScroll = () => {
+      if (window.matchMedia('(max-width: 900px)').matches) return
+      const sections = getSections()
+      if (sections.length === 0) return
+
+      const firstSectionHeight = sections[0]?.offsetHeight || stage.clientHeight || 1
+      const progress = Math.max(0, Math.min(stage.scrollTop / firstSectionHeight, sections.length - 1))
+      const nearestIndex = Math.max(0, Math.min(Math.round(progress), sections.length - 1))
+      updateThread(progress)
+
+      if (nearestIndex !== activeSceneRef.current) {
+        activeSceneRef.current = nearestIndex
+        setActiveScene(nearestIndex)
+      }
+    }
+
+    stage.addEventListener('wheel', onWheel, { passive: false })
+    stage.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+
+    return () => {
+      stage.removeEventListener('wheel', onWheel)
+      stage.removeEventListener('scroll', onScroll)
+      if (lockTimerRef.current) window.clearTimeout(lockTimerRef.current)
+    }
+  }, [downloadOpen])
+
   return (
     <div className={shell}>
       <Header />
-      <main className="lx-scroll-stage">
+      <main ref={stageRef} className="lx-scroll-stage" data-active-scene={activeScene}>
+        <StoryThread activeScene={activeScene} threadRef={threadRef} />
         <HeroSection onDownloadClick={() => setDownloadOpen(true)} />
         <UniverseSection />
         <FeaturesSection />
