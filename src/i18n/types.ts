@@ -2,22 +2,22 @@ export type Locale = 'zh' | 'en'
 
 export type NavItem = { label: string; href: string }
 
-export type CoreFeature = {
+export type FeatureItem = {
   id: string
   eyebrow: string
   title: string
   body: string
   bullets: string[]
-  useCase: string
 }
 
-export type SkillCategory = { title: string; text: string }
+export type UniverseNode = { label: string; text: string }
 
-export type GettingStep = { n: string; title: string; text: string }
-
-export type CompareRow = { dim: string; cells: string[] }
-
-export type TrustPillar = { title: string; text: string }
+export type PlatformItem = {
+  os: 'windows' | 'mac' | 'ios' | 'android'
+  title: string
+  status: string
+  body: string
+}
 
 export type FaqItem = { q: string; a: string }
 
@@ -25,31 +25,30 @@ export type Messages = {
   meta: { title: string; description: string }
   ui: {
     download: string
-    learnMore: string
-    earningHub: string
+    directExperience: string
     comingSoon: string
-    official: string
-    discord: string
-    openclawEcosystem: string
-    useCase: string
-    dimension: string
-    recommended: string
-    officialLink: string
-    proTip: string
-    featuresTitle: string
-    featuresSub: string
-    faqTitle: string
-    faqLead: string
-    copyrightSuffix: string
-    bottomCtaTitle: string
-    bottomCtaSub: string
+    navAria: string
     langAria: string
     langZh: string
     langEn: string
     heroIntroAria: string
-    navAria: string
     ctaAria: string
+    universeTitle: string
+    universeSub: string
+    featuresTitle: string
+    featuresSub: string
+    startTitle: string
+    startSub: string
+    platformsTitle: string
+    platformsSub: string
+    faqTitle: string
+    faqLead: string
+    bottomCtaTitle: string
+    bottomCtaSub: string
+    pageUpdatedPrefix: string
+    copyrightSuffix: string
     downloadModalTitle: string
+    downloadModalSub: string
     downloadReleased: string
     downloadDetected: string
     downloadOtherPlatforms: string
@@ -59,10 +58,14 @@ export type Messages = {
     downloadSmartScreenHint: string
     downloadLoading: string
     downloadClose: string
+    mobileComingSoonTitle: string
+    mobileComingSoonBody: string
     envWindowsX64: string
     envWindowsArm64: string
     envMacApple: string
     envMacIntel: string
+    envIOS: string
+    envAndroid: string
     envLinux: string
     envUnknown: string
   }
@@ -70,36 +73,21 @@ export type Messages = {
   hero: {
     badge: string
     headline: string
+    slogan: string
     sub: string
-    tagline: string
-    intro: string[]
-    audience: string
+    metrics: { value: string; label: string }[]
+    orbitLabels: string[]
   }
-  featuresToSkillsBridge: string
-  coreFeatures: CoreFeature[]
-  skillsSection: {
-    headline: string
-    sub: string
-    categories: SkillCategory[]
-    badges: string[]
-  }
+  universeNodes: UniverseNode[]
+  coreFeatures: FeatureItem[]
   gettingStarted: {
-    headline: string
-    sub: string
-    steps: GettingStep[]
-    proTip: string
+    steps: { n: string; title: string; text: string }[]
   }
-  comparison: {
-    headline: string
-    sub: string
-    columns: string[]
-    recommendedCol: number
-    rows: CompareRow[]
-  }
+  platforms: PlatformItem[]
   trust: {
     headline: string
     body: string
-    pillars: TrustPillar[]
   }
+  geoDefinition: { title: string; body: string }
   faqs: FaqItem[]
 }

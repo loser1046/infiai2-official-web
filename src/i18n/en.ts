@@ -2,352 +2,174 @@ import type { Messages } from './types'
 
 export const en: Messages = {
   meta: {
-    title: 'InfiAI — Your Avatar, Infinite Possibilities',
+    title: 'Lingxie — Your Avatar, Infinite Possibilities',
     description:
-      'A digital avatar platform for real people—social, content, and monetization in one. Your personal digital companion and a compounding engine of value for professionals and IPs.',
+      'Lingxie is an AI social digital-avatar platform for creating personas, receiving relationships, building knowledge, and expanding influence.',
   },
   ui: {
-    download: 'Download Now',
-    learnMore: 'Learn more',
-    earningHub: 'Help Center',
+    download: 'Download',
+    directExperience: 'Try Now',
     comingSoon: 'Coming soon',
-    official: 'Official',
-    discord: 'Direct Access',
-    openclawEcosystem: 'OpenClaw ecosystem',
-    useCase: 'Use Case',
-    dimension: 'Dimension',
-    recommended: 'Recommended',
-    officialLink: 'Official site',
-    proTip: 'Pro tip',
-    featuresTitle: 'Digital avatars, all in one place',
-    featuresSub: 'From creation and interaction to monetization for all scenarios',
-    faqTitle: 'FAQ',
-    faqLead: 'Common questions about InfiAI',
-    copyrightSuffix: 'Your Avatar · Infinite Possibilities',
-    bottomCtaTitle: 'Ready to create your InfiAI avatar?',
-    bottomCtaSub:
-      'Download InfiAI, configure in minutes, and start interacting and creating',
+    navAria: 'Primary navigation',
     langAria: 'Language',
-    langZh: '中文',
+    langZh: 'ZH',
     langEn: 'EN',
-    heroIntroAria: 'Introduction',
-    navAria: 'Primary',
+    heroIntroAria: 'Lingxie product introduction',
     ctaAria: 'Call to action',
-    downloadModalTitle: 'Download {name}',
+    universeTitle: 'Your persona becomes a second live presence',
+    universeSub:
+      'Lingxie connects relationships, knowledge, skills, memory, and content into an always-on AI social network.',
+    featuresTitle: 'Core Capabilities',
+    featuresSub: 'From persona creation to relationship handoff, Lingxie brings AI into real social workflows.',
+    startTitle: 'Start in four steps',
+    startSub: 'Download, sign in, create, and enable your persona.',
+    platformsTitle: 'Choose your experience',
+    platformsSub: 'Desktop is available first. Mobile apps are in preparation.',
+    faqTitle: 'FAQ',
+    faqLead: 'Essential Q&A on AI social digital personas',
+    bottomCtaTitle: 'Bring your persona online',
+    bottomCtaSub: 'Download Lingxie or enter the web app directly.',
+    pageUpdatedPrefix: 'Main page content last updated',
+    copyrightSuffix: 'Your Avatar, Infinite Possibilities',
+    downloadModalTitle: 'Choose your experience',
+    downloadModalSub: 'Lingxie recommends the best entry for your current device.',
     downloadReleased: 'Released on {date}',
     downloadDetected: 'Detected: {env}',
     downloadOtherPlatforms: 'Other platforms',
-    downloadViewReleases: 'View all releases on GitHub',
+    downloadViewReleases: 'View all desktop installers',
     downloadFetchError: 'Could not load the latest release. Try again or open the releases page.',
-    downloadNoInstallers: 'No installer assets in this release. See GitHub for other files.',
+    downloadNoInstallers: 'No installer assets in this release. See the releases page for other files.',
     downloadSmartScreenHint:
-      'If SmartScreen blocks the app, click “More info”, then “Run anyway”.',
-    downloadLoading: 'Loading release…',
+      'If Windows SmartScreen blocks the app, click “More info”, then “Run anyway”.',
+    downloadLoading: 'Loading release...',
     downloadClose: 'Close',
+    mobileComingSoonTitle: 'Mobile apps coming soon',
+    mobileComingSoonBody: 'iOS and Android clients are in preparation. You can try the web app first.',
     envWindowsX64: 'Windows (x64)',
     envWindowsArm64: 'Windows (ARM64)',
     envMacApple: 'macOS (Apple Silicon)',
     envMacIntel: 'macOS (Intel)',
+    envIOS: 'iOS',
+    envAndroid: 'Android',
     envLinux: 'Linux',
     envUnknown: 'Unknown environment',
   },
   nav: [
-    { label: 'Product', href: '#features' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Get started', href: '#start' },
-    { label: 'Compare', href: '#compare' },
+    { label: 'Universe', href: '#universe' },
+    { label: 'Capabilities', href: '#features' },
+    { label: 'Start', href: '#start' },
+    { label: 'Platforms', href: '#platforms' },
     { label: 'FAQ', href: '#faq' },
   ],
   hero: {
-    badge: 'Your Avatar · Infinite Possibilities',
-    headline: 'InfiAI',
+    badge: 'AI social digital-avatar platform',
+    headline: 'Lingxie',
+    slogan: 'Your Avatar, Infinite Possibilities',
     sub:
-      'A digital avatar platform for real people—social, content, and monetization in one. Your personal digital companion, and a compounding engine of value for professionals and IPs.',
-    tagline: 'A digital companion and a compounding engine',
-    intro: [
-      'Create your own avatar in about one minute, with knowledge-base upload and cross-platform content reuse.',
-      'Support interactions among people and avatars through text, voice, video, and multimodal workflows.',
+      'Create an AI persona that understands you, speaks with your boundaries, and keeps relationships alive while your knowledge, memory, skills, and social graph keep moving.',
+    metrics: [
+      { value: '1 min', label: 'Create quickly' },
+      { value: '24/7', label: 'Receive relationships' },
+      { value: 'AI', label: 'Social knowledge loop' },
     ],
-    audience: 'For everyday users, creators, and professional IPs',
+    orbitLabels: ['Relation', 'Knowledge', 'Skills', 'Memory', 'Content', 'Card'],
   },
-  featuresToSkillsBridge:
-    'More than chat tools—a platform where avatars continuously create value',
+  universeNodes: [
+    { label: 'You', text: 'You remain the center of identity and expression.' },
+    { label: 'Persona', text: 'Replies, receives, and collaborates under your settings.' },
+    { label: 'Knowledge', text: 'Turns documents and FAQs into retrievable context.' },
+    { label: 'Skills', text: 'Adds tool use beyond conversation.' },
+    { label: 'Discover', text: 'Helps people find humans and AI personas worth meeting.' },
+    { label: 'Card', text: 'Turns social access into a shareable asset.' },
+  ],
   coreFeatures: [
     {
-      id: 'scraping',
-      eyebrow: 'Fast creation',
-      title: 'Fast and easy personal avatars',
-      body:
-        'Create your own avatar in as little as one minute—no code required. Upload a knowledge base, reuse historical content, and extend capabilities with skill plugins.',
-      bullets: [
-        'Zero-code onboarding',
-        'Knowledge-base powered memory',
-        'Extensible skill plugins',
-      ],
-      useCase:
-        'Creators can quickly launch personal avatars for continuous fan interaction and Q&A.',
+      id: 'social',
+      eyebrow: 'AI Social',
+      title: 'Grow relationships from the first connection',
+      body: 'Lingxie is not just chat. It is a live AI social surface for people, personas, groups, and content.',
+      bullets: ['Discover people and personas', 'Human-persona interactions', 'Faster meaningful conversations'],
     },
     {
-      id: 'cron',
-      eyebrow: 'Rich interaction',
-      title: 'Natural and immersive experiences',
-      body:
-        'Support seamless communication among people and avatars through text, voice, video, and live interaction.',
-      bullets: [
-        'DM and group scenarios ready out of the box',
-        'Voice/video for stronger companionship',
-        'Interaction closer to human expression',
-      ],
-      useCase:
-        'Users can continuously engage with creator avatars for guidance and companionship.',
+      id: 'persona',
+      eyebrow: 'Persona hosting',
+      title: 'Your persona keeps receiving while you are offline',
+      body: 'Set personality, boundaries, and handoff rules so your persona can respond in the right moments.',
+      bullets: ['Cloud hosting or local mode', 'Offline relationship reception', 'Adjust or disable anytime'],
     },
     {
-      id: 'channels',
-      eyebrow: 'Content ecosystem',
-      title: 'A rich and diverse content platform',
-      body:
-        'Build an immersive personalized feed where humans and avatars co-create. Keep your IP active and growing even when you are offline.',
-      bullets: [
-        'Unified create/browse/engage loop',
-        'Human-avatar co-creation model',
-        'Long-term reusable content assets',
-      ],
-      useCase:
-        'Professional users can keep output cadence through avatars and improve audience retention.',
+      id: 'knowledge',
+      eyebrow: 'Knowledge base',
+      title: 'Turn material into long-term persona memory',
+      body: 'Upload documents, FAQs, links, and professional material so answers can rely on your own sources.',
+      bullets: ['Bind knowledge to personas', 'Shared and subscribed knowledge', 'Stable long-term context'],
     },
     {
-      id: 'analysis',
-      eyebrow: 'Cross-device sync',
-      title: 'Consistent multi-platform experience',
-      body:
-        'Sync states across desktop and mobile so conversations and avatar behavior remain continuous on every device.',
-      bullets: [
-        'Desktop and mobile consistency',
-        'Persistent conversation state',
-        'Seamless device switching',
-      ],
-      useCase:
-        'Create on desktop during the day and continue interactions on mobile at night.',
+      id: 'skills',
+      eyebrow: 'Skill expansion',
+      title: 'Give the persona actions, not just words',
+      body: 'Add search, content handling, and workflow capabilities so your persona moves from speaking to doing.',
+      bullets: ['Controllable skill switches', 'Scenario-based enhancement', 'OpenClaw ecosystem compatible'],
     },
     {
-      id: 'local',
-      eyebrow: 'Monetization',
-      title: 'Turn avatars into sustained value',
-      body:
-        'Use subscriptions, paid knowledge services, and custom avatar offerings to convert your expertise and time into scalable revenue.',
-      bullets: [
-        'Multiple avatar business models',
-        'Higher output with lower repetitive labor',
-        'Break through individual time limits',
-      ],
-      useCase:
-        'Professional IPs can run 24/7 interactions to scale private-domain operations and income.',
+      id: 'card',
+      eyebrow: 'Discover & card',
+      title: 'Make yourself easier to connect with',
+      body: 'Discover and AI social cards help people find you, add you, and build relationships through your persona.',
+      bullets: ['Persona and knowledge discovery', 'QR-code social card', 'Relationship growth loop'],
+    },
+    {
+      id: 'sync',
+      eyebrow: 'Multi-platform',
+      title: 'Start on desktop, continue everywhere',
+      body: 'Desktop carries the full productivity experience first, with mobile apps following for on-the-go management.',
+      bullets: ['Windows and macOS downloads', 'iOS / Android coming soon', 'Web app available first'],
     },
   ],
-  skillsSection: {
-    headline: 'Serious skill depth—55+ capabilities ready to run',
-    sub:
-      'Compatible with the OpenClaw ecosystem across productivity, engineering, media, and smart home scenarios.',
-    categories: [
-      {
-        title: 'Productivity',
-        text: 'Notion, Obsidian, Trello, Apple Notes/Reminders—AI keeps your pipeline tidy',
-      },
-      {
-        title: 'Developer tools',
-        text: 'Terminal, scripting, and ops assists—power users stay in flow',
-      },
-      {
-        title: 'Media creation',
-        text: 'Image, video, and speech tooling—accelerate content monetization',
-      },
-      {
-        title: 'Smart home',
-        text: 'Lights, speakers, Spotify—control environments via chat',
-      },
-      {
-        title: 'Communication',
-        text: 'Discord, Slack, iMessage, voice—every channel covered',
-      },
-      {
-        title: 'Security & privacy',
-        text: '1Password-aware workflows with guardrails',
-      },
-      {
-        title: 'MCP protocol',
-        text: 'Wire in any Model Context Protocol service you trust',
-      },
-      {
-        title: 'ClawHub market',
-        text: 'Expand with curated skills—install and iterate fast',
-      },
-    ],
-    badges: [
-      'OpenClaw-compatible extensions',
-      'Cross-platform macOS / Windows / Linux',
-      'CLI + GUI dual mode',
-    ],
-  },
   gettingStarted: {
-    headline: 'Get productive in three minutes',
-    sub: 'No coding—visual setup from the first launch',
     steps: [
-      {
-        n: '01',
-        title: 'Download & install',
-        text: 'Pick macOS or Windows, then follow the installer wizard.',
-      },
-      {
-        n: '02',
-        title: 'Sign in and finish basic setup',
-        text: 'Sign in with your account, complete onboarding and required permissions, then start using avatar capabilities.',
-      },
-      {
-        n: '03',
-        title: 'Start your avatar workflows',
-        text: 'Use chat commands or scheduled tasks to automate information summaries, interaction replies, and content generation.',
-      },
-    ],
-    proTip:
-      'InfiAI supports both local always-on operation and cloud hosting: run it on your own device, or keep services online 24/7 via managed cloud deployment.',
-  },
-  comparison: {
-    headline: 'How approaches compare',
-    sub: 'See how InfiAI compares in digital-avatar-first scenarios',
-    columns: ['InfiAI', 'OpenClaw', 'Traditional social/tools', 'General Agent'],
-    recommendedCol: 0,
-    rows: [
-      {
-        dim: 'Real-time data',
-        cells: [
-          'Live collection, AI-driven browsing',
-          'Supported when self-hosted',
-          'Real-time but pricey',
-          'Mostly static knowledge',
-        ],
-      },
-      {
-        dim: '24/7 operation',
-        cells: [
-          'Your hardware stays awake',
-          'Depends on your ops',
-          'Tied to SaaS uptime',
-          'Cloud disconnects hurt',
-        ],
-      },
-      {
-        dim: 'Multi-source aggregation',
-        cells: [
-          '55+ skills in one stack',
-          'Integration debt over time',
-          'Vendor lock-in',
-          'Single-surface limits',
-        ],
-      },
-      {
-        dim: 'Context memory',
-        cells: [
-          'Long-running memory',
-          'Configurable depth',
-          'Windowed history',
-          'Shallow recall layers',
-        ],
-      },
-      {
-        dim: 'Smart analysis',
-        cells: [
-          'Collect · analyze · push',
-          'Bring your glue code',
-          'Preset analytics only',
-          'Little proactive intake',
-        ],
-      },
-      {
-        dim: 'Push notifications',
-        cells: [
-          '20+ channels, visual config',
-          'Bring your own pipes',
-          'Third-party heavy',
-          'Almost none native',
-        ],
-      },
-      {
-        dim: 'Data security',
-        cells: [
-          'Local storage, proprietary control plane',
-          'Depends on deployment',
-          'Vendor-hosted data',
-          'Mostly cloud resident',
-        ],
-      },
-      {
-        dim: 'Ease of use',
-        cells: [
-          'Visual-first, zero code default',
-          'Engineer-friendly only',
-          'Sign-up simple',
-          'Shallow but easy',
-        ],
-      },
-      {
-        dim: 'Cost',
-        cells: [
-          'Commercial licensing for serious earners',
-          'Free stack, self-maintained',
-          'Subscription SaaS',
-          'Monthly tooling fees ($20+)',
-        ],
-      },
-      {
-        dim: '—',
-        cells: ['Excellent', 'Partial', 'Limited/None', '—'],
-      },
+      { n: '01', title: 'Download or try now', text: 'Install desktop builds, or enter the web app from mobile.' },
+      { n: '02', title: 'Sign in and shape your profile', text: 'Tell the system your identity, interests, and AI social goals.' },
+      { n: '03', title: 'Create your persona', text: 'Configure name, identity, introduction, category, and reply boundaries.' },
+      { n: '04', title: 'Bind knowledge and skills', text: 'Enable hosting, add knowledge, and choose skills for continuous reception.' },
     ],
   },
+  platforms: [
+    { os: 'windows', title: 'Windows', status: 'Available', body: 'Best for full desktop workflows and continuous hosting setup.' },
+    { os: 'mac', title: 'macOS', status: 'Available', body: 'Supports Apple Silicon and Intel devices for daily creation and management.' },
+    { os: 'ios', title: 'iOS', status: 'Coming soon', body: 'The mobile client is in preparation. Try the web app first.' },
+    { os: 'android', title: 'Android', status: 'Coming soon', body: 'The mobile client is in preparation. Try the web app first.' },
+  ],
   trust: {
-    headline: 'A platform that empowers people and IPs',
+    headline: 'Lingxie puts AI back into real relationships',
     body:
-      'InfiAI connects social, content, and monetization into one platform, serving both everyday users and professional creators with compounding digital-avatar value.',
-    pillars: [
-      { title: 'Digital companion', text: 'Everyday users get low-friction personal avatars and companionship' },
-      { title: 'IP compounding', text: 'Professional users scale influence and value through 24/7 avatars' },
-      { title: 'Content ecosystem', text: 'Humans and avatars co-create persistent content assets' },
-      { title: 'Ecosystem ready', text: 'Extend capabilities through mature OpenClaw integrations' },
-    ],
+      'It is not an isolated prompt box. It is a product built around you, your persona, your knowledge, and your social network.',
   },
-  /** GEO：与 `en/index.html` 内 `id="ld-faq"` 的英文 FAQ JSON-LD 保持一致 */
+  geoDefinition: {
+    title: 'What is a Lingxie digital persona?',
+    body:
+      'A Lingxie digital persona is an AI social agent configured with your profile, identity, knowledge base, and skills to interact, receive relationships, and support content expression.',
+  },
   faqs: [
     {
-      q: 'What is an InfiAI digital avatar?',
-      a: "It is an AI agent shaped by your cognition and personality, able to interact in your style and extend what you can do beyond time and place.",
+      q: 'What is Lingxie and who is it for?',
+      a:
+        'Lingxie (https://lingxie.net) is an AI social digital-avatar platform for creators and professionals to build personas that sound like them, receive relationships, accumulate knowledge, and grow influence. Product entry: https://app.lingxie.net.',
     },
     {
-      q: 'How do I create my avatar?',
-      a: 'Download the InfiAI client and create it in minutes. Knowledge-base and memory systems help the avatar become increasingly aligned with you.',
+      q: 'How is it different from ChatGPT?',
+      a:
+        'ChatGPT-style tools focus on one-off Q&A. A Lingxie persona binds your identity, knowledge base, skills, and social graph, keeps receiving relationships while you are offline, and interacts in discovery, groups, and AI social cards—a persistent second online presence.',
     },
     {
-      q: 'How is it different from other AI products?',
-      a: 'Unlike passive Q&A tools, InfiAI avatars can proactively interact, create, and collaborate to empower you rather than replace you.',
+      q: 'Windows, Mac, or mobile?',
+      a:
+        'Desktop builds for Windows (x64/ARM64) and macOS (Apple/Intel): github.com/luyao-inc/infiai2-official-web/releases, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS/Android apps are in development; use the web app on mobile for now.',
     },
     {
-      q: 'Is my data secure?',
-      a: 'Runs locally with encrypted API storage and your choice of model vendors. Closed-source distribution reduces copycat exposure for how you run your edge.',
-    },
-    {
-      q: 'Which AI models are supported?',
-      a: '10+ providers including OpenAI, Anthropic, Google, OpenRouter, Moonshot, Qwen, and more.',
-    },
-    {
-      q: 'Is there a fee?',
-      a: 'InfiAI is commercial software sold under license or subscription—see official channels for current plans. You still pay AI providers for the API traffic you configure.',
-    },
-    {
-      q: 'Is InfiAI open source?',
-      a: 'No. InfiAI is proprietary closed-source software. We do not publish source code by design, so we can protect product capabilities and user workflows.',
-    },
-    {
-      q: 'Why run it on a dedicated personal machine?',
-      a: 'Always-on hardware frees your laptop while keeping sensitive playbooks off shared SaaS surfaces.',
+      q: 'What happens when I am offline?',
+      a:
+        'With hosting on, your persona can greet new connections and messages, reply in your voice using your knowledge base, and follow policies you set (e.g. auto-accept friends). Adjust or disable hosting anytime—you stay in control.',
     },
   ],
 }

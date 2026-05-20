@@ -1,9 +1,9 @@
-本机实际部署（与 InfiAI 共用 infiai-nginx 的 80/443）
+本机实际部署（与灵谐共用 infiai-nginx 的 80/443）
 
-- 证书：Let's Encrypt（Certbot，免费），域名 www.earningclaw.com
-- 站点容器：earningclaw-web 加入 Docker 网络 infiai_infiai-network，由 Nginx 反代到 earningclaw-web:80
-- 证书文件：/opt/InfiAI/docker/nginx/ssl/earningclaw-fullchain.pem 与 earningclaw-privkey.pem（由 /etc/letsencrypt 复制）
-- 续期钩子：/etc/letsencrypt/renewal-hooks/deploy/earningclaw-nginx-reload.sh（续期后复制证书并重载 infiai-nginx）
+- 证书：Let's Encrypt（Certbot，免费），域名 lingxie.net
+- 站点容器：lingxie-web 加入 Docker 网络 infiai_infiai-network，由 Nginx 反代到 lingxie-web:80
+- 证书文件：/opt/lingxie/docker/nginx/ssl/lingxie-fullchain.pem 与 lingxie-privkey.pem（由 /etc/letsencrypt 复制）
+- 续期钩子：/etc/letsencrypt/renewal-hooks/deploy/lingxie-nginx-reload.sh（续期后复制证书并重载 infiai-nginx）
 
 更新前端后在本项目目录执行：
 

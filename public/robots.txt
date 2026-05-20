@@ -14,5 +14,5 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://infiai.org.cn/sitemap.xml
-Sitemap: https://www.infiai.org.cn/sitemap.xml
+Sitemap: https://lingxie.net/sitemap.xml
+Sitemap: https://www.lingxie.net/sitemap.xml

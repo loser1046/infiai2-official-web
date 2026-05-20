@@ -5,17 +5,17 @@
  * - 优先尝试 Webmaster `ping.aspx`（行为随 Bing 策略变化，失败不阻断构建）。
  *
  * 用法：
- *   GEO_SITE_ORIGIN=https://infiai.org.cn npm run geo:ping
+ *   GEO_SITE_ORIGIN=https://lingxie.net npm run geo:ping
  */
 
-const origin = (process.env.GEO_SITE_ORIGIN ?? 'https://infiai.org.cn').replace(/\/$/, '')
+const origin = (process.env.GEO_SITE_ORIGIN ?? 'https://lingxie.net').replace(/\/$/, '')
 const sitemapUrl = `${origin}/sitemap.xml`
 
 if (process.env.GEO_VERIFY_SITEMAP !== '0') {
   try {
     const res = await fetch(sitemapUrl, {
       redirect: 'follow',
-      headers: { 'user-agent': 'InfiAI-geo-ping/1.0' },
+      headers: { 'user-agent': 'lingxie-site-ping/1.0' },
     })
     if (!res.ok) {
       console.warn(`[geo-ping] sitemap GET ${res.status} (expected 2xx): ${sitemapUrl}`)

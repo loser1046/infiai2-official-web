@@ -18,6 +18,7 @@ function isDownloadableAsset(name: string): boolean {
 
 function scoreAsset(name: string, c: ClientPlatform): number {
   const lower = name.toLowerCase()
+  if (c.os === 'ios' || c.os === 'android') return 0
   if (c.os === 'unknown') return isDownloadableAsset(name) ? 10 : 0
 
   if (c.os === 'windows') {
@@ -71,6 +72,7 @@ export function pickRecommendedAssets(
   client: ClientPlatform,
 ): { primary: ReleaseAsset | null; others: ReleaseAsset[] } {
   const filtered = assets.filter((a) => isDownloadableAsset(a.name))
+  if (client.os === 'ios' || client.os === 'android') return { primary: null, others: filtered }
   if (filtered.length === 0) return { primary: null, others: [] }
 
   const ranked = [...filtered].sort((a, b) => scoreAsset(b.name, client) - scoreAsset(a.name, client))

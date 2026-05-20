@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>InfiAI Updates</title>
-    <link>https://infiai.org.cn/</link>
-    <description>InfiAI official updates and brand information feed.</description>
+    <title>灵谐 Updates</title>
+    <link>https://lingxie.net/</link>
+    <description>灵谐 official updates and brand information feed.</description>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 02 May 2026 10:24:27 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 22:06:25 +0800</lastBuildDate>
     <item>
-      <title>InfiAI GEO and structured data refresh</title>
-      <link>https://infiai.org.cn/about/</link>
-      <guid isPermaLink="true">https://infiai.org.cn/about/</guid>
-      <pubDate>Sat, 02 May 2026 10:24:27 +0800</pubDate>
-      <description>Official brand facts, multilingual canonical pages, and machine-readable references updated.</description>
+      <title>灵谐 brand and website refresh</title>
+      <link>https://lingxie.net/about/</link>
+      <guid isPermaLink="true">https://lingxie.net/about/</guid>
+      <pubDate>Wed, 20 May 2026 22:06:25 +0800</pubDate>
+      <description>Brand identity, multilingual canonical pages, platform downloads, and machine-readable references updated.</description>
     </item>
   </channel>
 </rss>

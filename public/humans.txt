@@ -1,11 +1,13 @@
 /* TEAM */
 
-Brand: InfiAI
+Brand: 灵谐
+Slogan: 你的分身，无限可能
 
 /* SITE */
 
-Canonical: https://infiai.org.cn/
+Canonical: https://lingxie.net/
+App: https://app.lingxie.net/
 
 Standards: HTML5, Schema.org JSON-LD, llms.txt
 
-Last updated: 2026-05-02 (Asia/Shanghai)
+Last updated: 2026-05-20 (Asia/Shanghai)

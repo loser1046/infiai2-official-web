@@ -1,37 +1,31 @@
-import { useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { DownloadModal } from './components/DownloadModal'
+import { GEO_PAGE_CONTENT_DATE_ISO } from './content/geoPageDate.generated'
 import { SITE } from './content/siteContent'
 import { useLocale } from './i18n/LocaleProvider'
 
-const shell = 'min-h-screen bg-[#050508] text-zinc-400 antialiased'
-const glow =
-  'pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_85%_55%_at_50%_-15%,rgba(59,130,246,0.2),transparent_55%),radial-gradient(ellipse_50%_40%_at_100%_0%,rgba(96,165,250,0.12),transparent_50%),linear-gradient(#050508,#050508)]'
-const container = 'mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8'
+const shell = 'h-screen overflow-hidden bg-[#03050b] text-slate-300 antialiased'
+const container = 'mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8'
 
-const btnPrimary =
-  'inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#3b82f6] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_28px_-4px_rgba(59,130,246,0.45)] transition hover:shadow-[0_12px_36px_-4px_rgba(96,165,250,0.42)] hover:brightness-105 active:scale-[0.98]'
-const btnGhost =
-  'inline-flex items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-zinc-100 transition hover:border-white/20 hover:bg-white/[0.07] active:scale-[0.98]'
-
-const sectionTitle =
-  'text-center text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl'
-const sectionDesc = 'mt-3 text-center text-base text-zinc-500 sm:text-lg'
+const primaryButton =
+  'lx-cta inline-flex min-h-12 items-center justify-center rounded-full border border-cyan-200/30 bg-[linear-gradient(110deg,#4f73ff,#23d5ff,#7c3cff)] px-6 text-sm font-bold text-white shadow-[0_0_34px_rgba(79,115,255,0.45)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_54px_rgba(35,213,255,0.5)] active:translate-y-0'
+const ghostButton =
+  'inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] px-6 text-sm font-bold text-white/90 backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-cyan-200/40 hover:bg-cyan-300/[0.08] active:translate-y-0'
+const sectionTitle = 'text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl'
+const sectionSub = 'mt-4 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base'
 
 function LocaleSwitcher() {
   const { locale, setLocale, t } = useLocale()
-  const pill = 'rounded-md px-2.5 py-1 text-xs font-semibold transition'
-  const active =
-    'bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#3b82f6] text-white shadow-sm'
-  const idle = 'text-zinc-500 hover:text-zinc-300'
+  const item = 'rounded-full px-3 py-1 text-xs font-bold transition'
   return (
     <div
-      className="flex shrink-0 rounded-lg border border-white/12 bg-white/[0.04] p-0.5"
+      className="flex rounded-full border border-white/10 bg-white/[0.05] p-1 backdrop-blur"
       role="group"
       aria-label={t.ui.langAria}
     >
       <button
         type="button"
-        className={`${pill} ${locale === 'zh' ? active : idle}`}
+        className={`${item} ${locale === 'zh' ? 'bg-white text-[#06111f]' : 'text-slate-400 hover:text-white'}`}
         onClick={() => setLocale('zh')}
         aria-pressed={locale === 'zh'}
       >
@@ -39,7 +33,7 @@ function LocaleSwitcher() {
       </button>
       <button
         type="button"
-        className={`${pill} ${locale === 'en' ? active : idle}`}
+        className={`${item} ${locale === 'en' ? 'bg-white text-[#06111f]' : 'text-slate-400 hover:text-white'}`}
         onClick={() => setLocale('en')}
         aria-pressed={locale === 'en'}
       >
@@ -52,87 +46,136 @@ function LocaleSwitcher() {
 function Header() {
   const { t, homePath } = useLocale()
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.08] bg-[#050508]/75 backdrop-blur-xl supports-[backdrop-filter]:bg-[#050508]/55">
-      <div
-        className={`${container} flex flex-wrap items-center justify-between gap-4 py-3.5`}
-      >
-        <a className="group flex items-center gap-2.5" href={homePath}>
+    <header className="relative z-50 h-[88px] border-b border-white/[0.08] bg-[#03050b]/82 backdrop-blur-2xl max-md:h-[72px]">
+      <div className={`${container} flex h-full items-center justify-between gap-3`}>
+        <a className="group flex items-center gap-3" href={homePath}>
           <img
             src="/logo.png"
-            alt={`${SITE.name} logo`}
-            width={36}
-            height={36}
-            className="h-9 w-9 shrink-0 rounded-[10px] object-contain object-center ring-1 ring-white/10 transition group-hover:ring-blue-400/40"
+            alt={`${t.hero.headline} logo`}
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-2xl object-contain ring-1 ring-white/15 transition group-hover:ring-cyan-300/50 max-md:h-9 max-md:w-9 max-md:rounded-xl"
           />
-          <span className="text-[15px] font-bold tracking-tight text-zinc-100">
-            {SITE.name}
-          </span>
+          <span className="text-lg font-black tracking-tight text-white max-md:text-base">{t.hero.headline}</span>
         </a>
         <nav
-          className="order-3 flex w-full flex-wrap items-center justify-center gap-0.5 sm:order-none sm:w-auto sm:justify-start"
           aria-label={t.ui.navAria}
+          className="flex justify-center gap-1 text-sm max-md:hidden"
         >
           {t.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-500 transition hover:bg-white/[0.05] hover:text-zinc-200"
+              className="rounded-full px-3 py-2 font-semibold text-slate-500 transition hover:bg-white/[0.06] hover:text-white"
             >
               {item.label}
             </a>
           ))}
         </nav>
-        <div className="flex flex-wrap items-center justify-end gap-2 sm:justify-start">
-          <LocaleSwitcher />
-        </div>
+        <LocaleSwitcher />
       </div>
     </header>
   )
 }
 
+function HeroVisual({ labels }: { labels: string[] }) {
+  const { t } = useLocale()
+  const nodes = useMemo(
+    () =>
+      labels.map((label, index) => ({
+        label,
+        style: {
+          '--i': index,
+          '--angle': `${index * (360 / labels.length)}deg`,
+          '--delay': `${index * -0.65}s`,
+        } as CSSProperties,
+      })),
+    [labels],
+  )
+
+  return (
+    <div className="lx-hero-visual" aria-hidden="true">
+      <div className="lx-orbit lx-orbit-a" />
+      <div className="lx-orbit lx-orbit-b" />
+      <div className="lx-orbit lx-orbit-c" />
+      <div className="lx-core">
+        <img src="/logo.png" alt="" className="h-16 w-16 rounded-3xl object-contain" />
+        <span>{t.hero.headline}</span>
+      </div>
+      {nodes.map((node) => (
+        <div key={node.label} className="lx-orbit-node" style={node.style}>
+          {node.label}
+        </div>
+      ))}
+      <div className="lx-pulse lx-pulse-one" />
+      <div className="lx-pulse lx-pulse-two" />
+    </div>
+  )
+}
+
 function HeroSection({ onDownloadClick }: { onDownloadClick: () => void }) {
   const { t } = useLocale()
-  const { hero: h } = t
   return (
     <section
-      className={`${container} pb-14 pt-16 sm:pb-20 sm:pt-20`}
+      className="lx-story-section lx-story-hero relative"
       aria-label={t.ui.heroIntroAria}
     >
-      <div className="mx-auto max-w-4xl text-center">
-        <span className="inline-flex items-center rounded-full border border-blue-500/45 bg-blue-500/12 px-3.5 py-1 text-xs font-medium text-blue-300">
-          {h.badge}
-        </span>
-        <h1 className="mt-7 text-[2rem] font-semibold leading-[1.12] tracking-tight text-zinc-50 sm:text-5xl sm:leading-[1.08] md:text-6xl">
-          <span className="bg-gradient-to-b from-white via-white to-white/75 bg-clip-text text-transparent">
-            {h.headline}
-          </span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-zinc-400 sm:text-lg">
-          {h.sub}
-        </p>
-        <p className="mt-4 text-sm font-semibold text-emerald-400/90">{h.tagline}</p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <button type="button" className={btnPrimary} onClick={onDownloadClick}>
-            {t.ui.download}
-          </button>
-          <button
-            type="button"
-            className={btnGhost}
-            onClick={() => window.alert(t.ui.comingSoon)}
-          >
-            {t.ui.earningHub}
-          </button>
-        </div>
-        <div className="mx-auto mt-12 max-w-xl space-y-3 text-left sm:text-center">
-          {h.intro.map((line) => (
-            <p key={line} className="text-sm leading-relaxed text-zinc-500 sm:text-[15px]">
-              {line}
+      <div className="lx-bg-grid" aria-hidden="true" />
+      <div className={`${container} lx-hero-inner`}>
+        <div className="lx-hero-grid">
+          <div className="lx-hero-copy relative z-10">
+            <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/[0.08] px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">
+              {t.hero.badge}
+            </span>
+            <h1 className="mt-6 text-5xl font-black tracking-tight text-white max-md:mt-5 max-md:text-4xl sm:text-6xl lg:mt-5 lg:text-6xl xl:text-7xl">
+              {t.hero.headline}
+            </h1>
+            <p className="mt-4 text-2xl font-bold text-transparent bg-clip-text bg-[linear-gradient(100deg,#ffffff,#7dd3fc,#a78bfa)] max-md:text-[1.7rem] sm:text-3xl lg:text-[2rem] xl:text-3xl">
+              {t.hero.slogan}
             </p>
+            <p className="mt-5 max-w-xl text-base leading-8 text-slate-400 max-md:text-sm max-md:leading-7 lg:max-w-lg">
+              {t.hero.sub}
+            </p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3 lg:mt-8 lg:justify-start">
+              <button type="button" className={primaryButton} onClick={onDownloadClick}>
+                {t.ui.download}
+              </button>
+              <a className={ghostButton} href={SITE.appUrl} target="_blank" rel="noreferrer">
+                {t.ui.directExperience}
+              </a>
+            </div>
+          </div>
+          <div className="lx-hero-visual-wrap relative z-10">
+            <HeroVisual labels={t.hero.orbitLabels} />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function UniverseSection() {
+  const { t } = useLocale()
+  return (
+    <section id="universe" className="lx-story-section lx-story-universe relative border-t border-white/[0.08]">
+      <div className={`${container} grid min-h-full items-center gap-10 py-10 lg:grid-cols-[0.82fr_1.18fr]`}>
+        <div className="relative z-10 max-w-3xl">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-300">Scene 01</p>
+          <h2 className={sectionTitle}>{t.ui.universeTitle}</h2>
+          <p className={sectionSub}>{t.ui.universeSub}</p>
+        </div>
+        <div className="lx-constellation" aria-hidden="true">
+          {t.universeNodes.map((node, index) => (
+            <div
+              key={node.label}
+              className="lx-constellation-node"
+              style={{ '--delay': `${index * 70}ms`, '--i': index } as CSSProperties}
+            >
+              <span>{node.label}</span>
+              <small>{node.text}</small>
+            </div>
           ))}
         </div>
-        <p className="mt-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-600">
-          {h.audience}
-        </p>
       </div>
     </section>
   )
@@ -140,43 +183,58 @@ function HeroSection({ onDownloadClick }: { onDownloadClick: () => void }) {
 
 function FeaturesSection() {
   const { t } = useLocale()
+  const primaryFeatures = t.coreFeatures.slice(0, 3)
+  const secondaryFeatures = t.coreFeatures.slice(3)
   return (
-    <section
-      className="border-t border-white/[0.06] bg-gradient-to-b from-transparent to-white/[0.02] py-20 sm:py-24"
-      id="features"
-      aria-labelledby="features-heading"
-    >
-      <div className={container}>
-        <h2 id="features-heading" className={sectionTitle}>
-          {t.ui.featuresTitle}
-        </h2>
-        <p className={sectionDesc}>{t.ui.featuresSub}</p>
-        <div className="mt-14 flex flex-col gap-6 lg:gap-7">
-          {t.coreFeatures.map((f) => (
+    <section id="features" className="lx-story-section lx-story-features border-t border-white/[0.08]">
+      <div className={`${container} grid min-h-full items-center gap-8 py-10 lg:grid-cols-[0.72fr_1.28fr]`}>
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-300">Scene 02</p>
+          <div>
+            <h2 className={sectionTitle}>{t.ui.featuresTitle}</h2>
+            <p className={sectionSub}>{t.ui.featuresSub}</p>
+          </div>
+        </div>
+        <div className="lx-feature-stage">
+          {primaryFeatures.map((feature, index) => (
             <article
-              key={f.id}
-            className="grid gap-8 rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-transparent p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset] transition hover:border-blue-500/35 sm:p-8 lg:grid-cols-2 lg:gap-10"
+              key={feature.id}
+              className="lx-feature"
+              style={{ '--delay': `${index * 80}ms` } as CSSProperties}
             >
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-300">
-                  {f.eyebrow}
-                </p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-zinc-50 sm:text-2xl">
-                  {f.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-zinc-400">{f.body}</p>
-                <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-zinc-500 marker:text-blue-400/90">
-                  {f.bullets.map((b) => (
-                    <li key={b}>{b}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="flex flex-col justify-center rounded-xl border border-white/[0.06] bg-black/30 p-5">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-400/90">
-                  {t.ui.useCase}
-                </span>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-400">{f.useCase}</p>
-              </div>
+              <div className="text-xs font-black uppercase tracking-[0.18em] text-cyan-300">{feature.eyebrow}</div>
+              <h3 className="mt-4 text-2xl font-bold tracking-tight text-white">{feature.title}</h3>
+              <p className="mt-4 text-sm leading-7 text-slate-400">{feature.body}</p>
+              <p className="mt-5 text-xs font-bold text-cyan-100/80">{feature.bullets[0]}</p>
+            </article>
+          ))}
+          <div className="lx-feature-chips">
+            {secondaryFeatures.map((feature) => (
+              <span key={feature.id}>{feature.title}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function StartSection() {
+  const { t } = useLocale()
+  return (
+    <section id="start" className="lx-story-section lx-story-start border-t border-white/[0.08]">
+      <div className={`${container} min-h-full py-10`}>
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-300">Scene 03</p>
+          <h2 className={sectionTitle}>{t.ui.startTitle}</h2>
+          <p className={`${sectionSub} mx-auto`}>{t.ui.startSub}</p>
+        </div>
+        <div className="lx-launch-rail">
+          {t.gettingStarted.steps.map((step) => (
+            <article key={step.n} className="lx-launch-step">
+              <span className="text-xs font-black text-cyan-300">{step.n}</span>
+              <h3 className="mt-5 text-lg font-bold text-white">{step.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-slate-500">{step.text}</p>
             </article>
           ))}
         </div>
@@ -185,154 +243,35 @@ function FeaturesSection() {
   )
 }
 
-function SkillsBridge() {
+function PlatformsSection({ onDownloadClick }: { onDownloadClick: () => void }) {
   const { t } = useLocale()
   return (
-    <div className="border-t border-white/[0.06] py-12 text-center">
-      <p className={`${container} text-lg font-medium text-zinc-300 sm:text-xl`}>
-        {t.featuresToSkillsBridge}
-      </p>
-    </div>
-  )
-}
-
-function SkillsSection() {
-  const { t } = useLocale()
-  const { skillsSection: s } = t
-  return (
-    <section
-      className="border-t border-white/[0.06] py-20 sm:py-24"
-      id="skills"
-      aria-labelledby="skills-heading"
-    >
-      <div className={container}>
-        <h2 id="skills-heading" className={sectionTitle}>
-          {s.headline}
-        </h2>
-        <p className={sectionDesc}>{s.sub}</p>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {s.categories.map((c) => (
-            <div
-              key={c.title}
-              className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 transition hover:border-white/15"
-            >
-              <h4 className="text-[15px] font-semibold text-zinc-100">{c.title}</h4>
-              <p className="mt-2 text-[13px] leading-relaxed text-zinc-500">{c.text}</p>
+    <section id="platforms" className="lx-story-section lx-story-platforms border-t border-white/[0.08]">
+      <div className={`${container} flex min-h-full items-center py-10`}>
+        <div className="lx-platform-console">
+          <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-300">Scene 04</p>
+              <h2 className={sectionTitle}>{t.ui.platformsTitle}</h2>
+              <p className={sectionSub}>{t.ui.platformsSub}</p>
             </div>
-          ))}
-        </div>
-        <div className="mt-10 flex flex-wrap justify-center gap-2.5">
-          {s.badges.map((b) => (
-            <span
-              key={b}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-zinc-400"
-            >
-              {b}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function GettingStartedSection() {
-  const { t } = useLocale()
-  const { gettingStarted: g } = t
-  return (
-    <section
-      className="border-t border-white/[0.06] py-20 sm:py-24"
-      id="start"
-      aria-labelledby="start-heading"
-    >
-      <div className={container}>
-        <h2 id="start-heading" className={sectionTitle}>
-          {g.headline}
-        </h2>
-        <p className={sectionDesc}>{g.sub}</p>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {g.steps.map((s) => (
-            <div
-              key={s.n}
-            className="rounded-2xl border border-white/[0.08] bg-gradient-to-b from-blue-500/[0.14] to-white/[0.02] p-6"
-            >
-              <div className="text-xs font-bold text-blue-300">{s.n}</div>
-              <h3 className="mt-3 text-lg font-semibold text-zinc-50">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-500">{s.text}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-8 rounded-2xl border border-blue-500/35 bg-blue-500/[0.1] p-6 sm:p-8">
-          <h4 className="text-sm font-semibold text-blue-300">{t.ui.proTip}</h4>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-300">{g.proTip}</p>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function ComparisonSection() {
-  const { t } = useLocale()
-  const { comparison: c } = t
-  const { columns, rows, recommendedCol } = c
-  return (
-    <section
-      className="border-t border-white/[0.06] py-20 sm:py-24"
-      id="compare"
-      aria-labelledby="compare-heading"
-    >
-      <div className={container}>
-        <h2 id="compare-heading" className={sectionTitle}>
-          {c.headline}
-        </h2>
-        <p className={sectionDesc}>{c.sub}</p>
-        <div className="mt-10 overflow-x-auto rounded-2xl border border-white/[0.08] bg-white/[0.02] shadow-[0_0_0_1px_rgba(255,255,255,0.03)_inset]">
-          <table className="w-full min-w-[720px] border-collapse text-left text-[13px]">
-            <thead>
-              <tr className="border-b border-white/[0.08] bg-black/40">
-                <th className="px-4 py-3.5 font-semibold text-zinc-200" scope="col">
-                  {t.ui.dimension}
-                </th>
-                {columns.map((col, i) => (
-                  <th
-                    key={col}
-                    scope="col"
-                    className={`px-4 py-3.5 font-semibold ${
-                      i === recommendedCol
-                        ? 'bg-blue-500/25 text-white'
-                        : 'text-zinc-300'
-                    }`}
-                  >
-                    {col}
-                    {i === recommendedCol ? (
-                      <span className="mt-1 block text-xs font-normal text-white/85">
-                        {t.ui.recommended}
-                      </span>
-                    ) : null}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.dim} className="border-b border-white/[0.06] last:border-0">
-                  <td className="whitespace-nowrap px-4 py-3.5 font-medium text-zinc-200">
-                    {row.dim}
-                  </td>
-                  {row.cells.map((cell, j) => (
-                    <td
-                      key={`${row.dim}-${String(j)}`}
-                      className={`px-4 py-3.5 text-zinc-500 ${
-                        j === recommendedCol ? 'bg-blue-500/[0.12] text-zinc-300' : ''
-                      }`}
-                    >
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            <button type="button" className={primaryButton} onClick={onDownloadClick}>
+              {t.ui.download}
+            </button>
+          </div>
+          <div className="lx-platform-grid">
+            {t.platforms.map((platform) => (
+              <article key={platform.os} className="lx-platform-card">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-black text-white">{platform.title}</h3>
+                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${platform.os === 'ios' || platform.os === 'android' ? 'bg-amber-300/15 text-amber-200' : 'bg-emerald-300/15 text-emerald-200'}`}>
+                    {platform.status}
+                  </span>
+                </div>
+                <p className="mt-5 text-sm leading-7 text-slate-500">{platform.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -341,33 +280,15 @@ function ComparisonSection() {
 
 function TrustSection() {
   const { t } = useLocale()
-  const { trust: tr } = t
   return (
-    <section
-      className="border-t border-white/[0.06] py-20 sm:py-24"
-      aria-labelledby="trust-heading"
-    >
+    <section className="lx-story-section flex items-center border-t border-white/[0.08] text-center">
       <div className={container}>
-        <h2 id="trust-heading" className={sectionTitle}>
-          {tr.headline}
+        <h2 className="mx-auto max-w-4xl text-3xl font-black tracking-tight text-white sm:text-5xl">
+          {t.trust.headline}
         </h2>
-        <p className={`${sectionDesc} mx-auto max-w-3xl`}>{tr.body}</p>
-        <div className="mt-8 flex justify-center">
-          <a className={btnGhost} href={SITE.githubUrl} target="_blank" rel="noreferrer">
-            {t.ui.learnMore}
-          </a>
-        </div>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {tr.pillars.map((p) => (
-            <div
-              key={p.title}
-              className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 text-center sm:text-left"
-            >
-              <h4 className="text-[15px] font-semibold text-zinc-100">{p.title}</h4>
-              <p className="mt-2 text-[13px] leading-relaxed text-zinc-500">{p.text}</p>
-            </div>
-          ))}
-        </div>
+        <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-400 sm:text-lg">
+          {t.trust.body}
+        </p>
       </div>
     </section>
   )
@@ -375,36 +296,47 @@ function TrustSection() {
 
 function FAQSection() {
   const { t } = useLocale()
+  const [active, setActive] = useState(0)
+  const visibleFaqs = t.faqs
+  const activeFaq = visibleFaqs[active] ?? visibleFaqs[0]
+
   return (
-    <section
-      className="border-t border-white/[0.06] py-20 sm:py-24"
-      id="faq"
-      aria-labelledby="faq-heading"
-    >
-      <div className={container}>
-        <h2 id="faq-heading" className={sectionTitle}>
-          {t.ui.faqTitle}
-        </h2>
-        <p className={sectionDesc}>{t.ui.faqLead}</p>
-        <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-3">
-          {t.faqs.map((item) => (
-            <details
-              key={item.q}
-              className="ec-details rounded-2xl border border-white/[0.08] bg-white/[0.02] transition open:border-white/[0.12] open:bg-white/[0.04]"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-[15px] font-medium text-zinc-100 [&::-webkit-details-marker]:hidden">
-                {item.q}
-                <span className="select-none text-lg font-light text-blue-300">
-                  <span className="ec-plus">+</span>
-                  <span className="ec-minus">−</span>
-                </span>
-              </summary>
-              <div className="border-t border-white/[0.06] px-5 pb-4 pt-3 text-sm leading-relaxed text-zinc-500">
-                {item.a}
-              </div>
-            </details>
-          ))}
+    <section id="faq" className="lx-story-section lx-story-faq flex items-center border-t border-white/[0.08]">
+      <div className={`${container} lx-faq-layout grid min-h-full items-center gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8`}>
+        <div className="lx-faq-aside">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-300">Scene 06</p>
+          <h2 className={`${sectionTitle} lx-faq-title`}>{t.ui.faqTitle}</h2>
+          <p className="lx-faq-lead">{t.ui.faqLead}</p>
+          <div className="lx-faq-list">
+            {visibleFaqs.map((item, index) => (
+              <button
+                key={item.q}
+                type="button"
+                className={`lx-faq-tab ${index === active ? 'is-active' : ''}`}
+                onClick={() => setActive(index)}
+              >
+                <span>{item.q}</span>
+                <strong>{String(index + 1).padStart(2, '0')}</strong>
+              </button>
+            ))}
+          </div>
         </div>
+        <article className="lx-faq-answer">
+          <span>{String(active + 1).padStart(2, '0')}</span>
+          <h3>{activeFaq.q}</h3>
+          <p>{activeFaq.a}</p>
+        </article>
+      </div>
+    </section>
+  )
+}
+
+function FinalSection({ onDownloadClick }: { onDownloadClick: () => void }) {
+  return (
+    <section className="lx-story-section lx-story-final flex items-center border-t border-white/[0.08] py-8">
+      <div className={`${container} lx-final-layout`}>
+        <BottomCta onDownloadClick={onDownloadClick} />
+        <SiteFooter />
       </div>
     </section>
   )
@@ -413,85 +345,47 @@ function FAQSection() {
 function BottomCta({ onDownloadClick }: { onDownloadClick: () => void }) {
   const { t } = useLocale()
   return (
-    <section
-      className="border-t border-white/[0.06] bg-gradient-to-b from-blue-500/[0.1] to-transparent py-20 text-center sm:py-24"
-      aria-label={t.ui.ctaAria}
-    >
-      <div className={container}>
-        <h2 className="text-2xl font-semibold tracking-tight text-zinc-50 sm:text-3xl">
-          {t.ui.bottomCtaTitle}
-        </h2>
-        <p className="mt-3 text-zinc-500">{t.ui.bottomCtaSub}</p>
+    <div className="text-center" aria-label={t.ui.ctaAria}>
+      <div className="rounded-[2.25rem] border border-cyan-300/20 bg-[linear-gradient(135deg,rgba(79,115,255,0.2),rgba(35,213,255,0.08),rgba(124,60,255,0.16))] p-6 sm:p-8">
+        <h2 className="text-3xl font-black tracking-tight text-white max-md:text-2xl sm:text-4xl">{t.ui.bottomCtaTitle}</h2>
+        <p className="mt-5 text-slate-300">{t.ui.bottomCtaSub}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <button type="button" className={btnPrimary} onClick={onDownloadClick}>
+          <button type="button" className={primaryButton} onClick={onDownloadClick}>
             {t.ui.download}
           </button>
-          <button
-            type="button"
-            className={btnGhost}
-            onClick={() => window.alert(t.ui.comingSoon)}
-          >
-            {t.ui.earningHub}
-          </button>
+          <a className={ghostButton} href={SITE.appUrl} target="_blank" rel="noreferrer">
+            {t.ui.directExperience}
+          </a>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 
 function SiteFooter() {
-  const { t, homePath } = useLocale()
+  const { t, homePath, locale } = useLocale()
   return (
-    <footer className="border-t border-white/[0.06] py-10 text-center">
-      <div className={container}>
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
-          <a
-            className="text-zinc-500 hover:text-zinc-200"
-            href={homePath}
-          >
-            {t.ui.download}
-          </a>
-          <a
-            className="text-zinc-500 hover:text-zinc-200"
-            href={SITE.discordUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t.ui.discord}
-          </a>
-          <a
-            className="text-zinc-500 hover:text-zinc-200"
-            href={SITE.ecosystemUrl}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t.ui.openclawEcosystem}
-          </a>
+    <footer className="lx-site-footer text-sm text-slate-600">
+      <div className="lx-footer-left">
+        <a className="text-base font-black text-slate-300 hover:text-white" href={homePath}>{t.hero.headline}</a>
+        <div className="mt-3 space-y-1">
+          <p>
+            <span>{t.ui.pageUpdatedPrefix}</span>{' '}
+            <time dateTime={GEO_PAGE_CONTENT_DATE_ISO}>{GEO_PAGE_CONTENT_DATE_ISO}</time>
+          </p>
+          <p>
+            © {new Date().getFullYear()} {t.hero.headline} - {t.ui.copyrightSuffix}
+          </p>
         </div>
-        <p className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-zinc-600">
-          <a className="hover:text-zinc-300" href="/">
-            中文版
-          </a>
-          <span className="text-zinc-700" aria-hidden>
-            ·
-          </span>
-          <a className="hover:text-zinc-300" href="/en/">
-            English
-          </a>
-        </p>
-        <p className="mt-5 text-xs text-zinc-600">
-          © {new Date().getFullYear()} {SITE.name} — {t.ui.copyrightSuffix}
-        </p>
-        <p className="mt-2 text-xs text-zinc-600">
-          <a
-            className="hover:text-zinc-300"
-            href="https://beian.miit.gov.cn/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            沪ICP备2025137719号-1
-          </a>
-        </p>
+      </div>
+      <div className="lx-footer-right">
+        <div className="flex flex-wrap justify-end gap-x-6 gap-y-2">
+          <a className="hover:text-white" href={SITE.appUrl} target="_blank" rel="noreferrer">{t.ui.directExperience}</a>
+          <a className="hover:text-white" href={SITE.downloadUrl} target="_blank" rel="noreferrer">{t.ui.download}</a>
+        </div>
+        <a className="lx-icp hover:text-white" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
+          {locale === 'zh' ? '沪ICP备2025137719号-1' : 'ICP 2025137719-1'}
+        </a>
       </div>
     </footer>
   )
@@ -501,20 +395,17 @@ function App() {
   const [downloadOpen, setDownloadOpen] = useState(false)
   return (
     <div className={shell}>
-      <div className={glow} aria-hidden />
       <Header />
-      <main>
+      <main className="lx-scroll-stage">
         <HeroSection onDownloadClick={() => setDownloadOpen(true)} />
+        <UniverseSection />
         <FeaturesSection />
-        <SkillsBridge />
-        <SkillsSection />
-        <GettingStartedSection />
-        <ComparisonSection />
+        <StartSection />
+        <PlatformsSection onDownloadClick={() => setDownloadOpen(true)} />
         <TrustSection />
         <FAQSection />
-        <BottomCta onDownloadClick={() => setDownloadOpen(true)} />
+        <FinalSection onDownloadClick={() => setDownloadOpen(true)} />
       </main>
-      <SiteFooter />
       <DownloadModal open={downloadOpen} onClose={() => setDownloadOpen(false)} />
     </div>
   )

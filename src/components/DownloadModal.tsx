@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from 'react'
 import { SITE } from '../content/siteContent'
 import { useLocale } from '../i18n/LocaleProvider'
@@ -12,6 +13,8 @@ function envDescription(c: ClientPlatform, ui: ReturnType<typeof useLocale>['t']
   if (c.os === 'windows') return ui.envWindowsX64
   if (c.os === 'mac' && c.arch === 'arm64') return ui.envMacApple
   if (c.os === 'mac') return ui.envMacIntel
+  if (c.os === 'ios') return ui.envIOS
+  if (c.os === 'android') return ui.envAndroid
   if (c.os === 'linux') return ui.envLinux
   return ui.envUnknown
 }
@@ -32,6 +35,7 @@ export function DownloadModal({ open, onClose }: Props) {
   const [release, setRelease] = useState<GitHubLatestRelease | null>(null)
 
   const client = useMemo(() => detectClientPlatform(), [])
+  const isMobileComingSoon = client.os === 'ios' || client.os === 'android'
   const repoParts = useMemo(() => parseGithubRepo(SITE.githubRepo), [])
 
   const { primary, others } = useMemo(() => {
@@ -44,6 +48,11 @@ export function DownloadModal({ open, onClose }: Props) {
     setErr(false)
     setLoading(true)
     setRelease(null)
+
+    if (isMobileComingSoon) {
+      setLoading(false)
+      return
+    }
 
     if (!repoParts) {
       setErr(true)
@@ -65,7 +74,7 @@ export function DownloadModal({ open, onClose }: Props) {
     return () => {
       cancelled = true
     }
-  }, [open, repoParts])
+  }, [open, repoParts, isMobileComingSoon])
 
   useEffect(() => {
     if (!open) return
@@ -87,7 +96,7 @@ export function DownloadModal({ open, onClose }: Props) {
       day: 'numeric',
     })
 
-  const title = replacePlaceholders(ui.downloadModalTitle, { name: SITE.name })
+  const title = replacePlaceholders(ui.downloadModalTitle, { name: t.hero.headline })
   const detectedLine = replacePlaceholders(ui.downloadDetected, {
     env: envDescription(client, ui),
   })
@@ -128,6 +137,7 @@ export function DownloadModal({ open, onClose }: Props) {
             </span>
           ) : null}
         </h2>
+        <p className="mt-2 text-sm leading-relaxed text-zinc-500">{ui.downloadModalSub}</p>
 
         {releasedLine ? <p className="mt-2 text-sm text-zinc-500">{releasedLine}</p> : null}
 
@@ -139,7 +149,20 @@ export function DownloadModal({ open, onClose }: Props) {
         </p>
 
         <div className="mt-6">
-          {loading ? (
+          {isMobileComingSoon ? (
+            <div className="rounded-2xl border border-amber-300/25 bg-amber-300/[0.08] p-5 text-center">
+              <p className="text-lg font-semibold text-amber-100">{ui.mobileComingSoonTitle}</p>
+              <p className="mt-2 text-sm leading-relaxed text-amber-100/70">{ui.mobileComingSoonBody}</p>
+              <a
+                href={SITE.appUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-flex items-center justify-center rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-[#07111f] transition hover:bg-cyan-100"
+              >
+                {ui.directExperience}
+              </a>
+            </div>
+          ) : loading ? (
             <p className="text-center text-sm text-zinc-500">{ui.downloadLoading}</p>
           ) : err ? (
             <p className="text-center text-sm text-zinc-400">{ui.downloadFetchError}</p>

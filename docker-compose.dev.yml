@@ -1,0 +1,29 @@
+# 灵谐官网本地开发：Vite 热重载
+#
+# 启动：
+#   cd infiai2-official-web && docker compose -f docker-compose.dev.yml up -d --build
+# 访问：http://127.0.0.1:5188  （中文 /）
+#       http://127.0.0.1:5188/en/  （英文）
+#
+# 与 infiai2-docker 静态预览（INFIAI_OFFICIAL_WEB_PORT 默认 18080）互不占用。
+# 与 infiai2-h5 开发容器（3003）互不占用。
+services:
+  official-web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: infiai2-official-web-dev
+    ports:
+      - "${OFFICIAL_WEB_DEV_PORT:-5188}:5188"
+    volumes:
+      - .:/app
+      - infiai2_official_web_node_modules:/app/node_modules
+    environment:
+      DOCKER_DEV: "1"
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    stdin_open: true
+    tty: true
+
+volumes:
+  infiai2_official_web_node_modules:

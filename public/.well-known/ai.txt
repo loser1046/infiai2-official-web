@@ -1,12 +1,15 @@
-# InfiAI — hints for automated retrieval
+# 灵谐 — hints for automated retrieval
 
-Brand facts and verified official profile URLs:
-https://infiai.org.cn/llms.txt
-https://infiai.org.cn/llms-full.txt
+Brand facts and machine-readable references:
+https://lingxie.net/llms.txt
+https://lingxie.net/llms-full.txt
 
 Canonical pages:
-- Chinese: https://infiai.org.cn/
-- English: https://infiai.org.cn/en/
-- Chinese brand facts: https://infiai.org.cn/about/
-- English brand facts: https://infiai.org.cn/en/about/
-- Humans.txt: https://infiai.org.cn/humans.txt
+- Chinese: https://lingxie.net/
+- English: https://lingxie.net/en/
+- Chinese brand facts: https://lingxie.net/about/
+- English brand facts: https://lingxie.net/en/about/
+- Humans.txt: https://lingxie.net/humans.txt
+
+Product entry:
+https://app.lingxie.net/

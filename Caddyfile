@@ -1,5 +1,5 @@
 # 可选：仅当本机独占 80/443 时使用（docker compose 需自行增加 caddy 服务）
-# 当前生产服务器与 InfiAI 共用 Nginx + Certbot，见 deploy/服务器部署HTTPS.txt
+# 当前生产服务器与灵谐共用 Nginx + Certbot，见 deploy/服务器部署HTTPS.txt
 #
 # Caddy：自动 HTTPS（Let's Encrypt，免费证书与续期）
 # 条件：域名 A 记录指向本机；安全组放行 TCP 80、443
@@ -9,7 +9,7 @@
 	# email you@example.com
 }
 
-www.earningclaw.com {
+lingxie.net, www.lingxie.net {
 	encode gzip zstd
 	header {
 		X-Content-Type-Options nosniff

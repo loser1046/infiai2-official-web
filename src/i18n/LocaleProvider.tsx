@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   useCallback,
@@ -10,6 +11,7 @@ import {
 import type { Locale } from './types'
 import type { Messages } from './types'
 import { defaultLocale, messages } from './messages'
+import { GEO_PAGE_CONTENT_DATE_ISO } from '../content/geoPageDate.generated'
 import { SITE } from '../content/siteContent'
 
 function upsertMeta(selector: string, attr: 'content' | 'href', value: string) {
@@ -71,7 +73,7 @@ function appendOgLocaleAlternate(content: string) {
 }
 
 function organizationSameAs(): string[] {
-  const seed = [SITE.githubUrl, SITE.orgGithubUrl, SITE.discordUrl]
+  const seed = [SITE.appUrl, SITE.githubUrl, SITE.orgGithubUrl]
   const merged = [...seed, ...SITE.officialSameAs]
   const seen = new Set<string>()
   const out: string[] = []
@@ -156,15 +158,20 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     upsertMeta('meta[name="twitter:title"]', 'content', t.meta.title)
     upsertMeta('meta[name="twitter:description"]', 'content', t.meta.description)
     upsertMeta('meta[name="twitter:image"]', 'content', logoUrl)
-    upsertMeta('meta[property="og:image:alt"]', 'content', `${SITE.name} logo`)
-    upsertMeta('meta[name="twitter:image:alt"]', 'content', `${SITE.name} logo`)
+    upsertMeta('meta[property="og:image:alt"]', 'content', `${t.hero.headline} logo`)
+    upsertMeta('meta[name="twitter:image:alt"]', 'content', `${t.hero.headline} logo`)
     upsertMeta('link[rel="canonical"]', 'href', pageUrl)
+    upsertMeta(
+      'meta[property="article:modified_time"]',
+      'content',
+      GEO_PAGE_CONTENT_DATE_ISO,
+    )
 
     updateJsonLdScript('ld-org', {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       '@id': orgId,
-      name: SITE.name,
+      name: t.hero.headline,
       url: `${siteUrl}/`,
       logo: logoUrl,
       description: t.meta.description,
@@ -174,9 +181,9 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     updateJsonLdScript('ld-software', {
       '@context': 'https://schema.org',
       '@type': 'SoftwareApplication',
-      name: SITE.name,
+      name: t.hero.headline,
       applicationCategory: 'BusinessApplication',
-      operatingSystem: 'Windows, macOS, Linux',
+      operatingSystem: 'Windows, macOS, iOS, Android',
       url: softwareLanding,
       downloadUrl: SITE.downloadUrl,
       description: t.meta.description,
@@ -189,7 +196,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       '@type': 'WebSite',
       '@id': `${siteUrl}/#website`,
       url: `${siteUrl}/`,
-      name: SITE.name,
+      name: t.hero.headline,
       inLanguage: locale === 'zh' ? ['zh-CN', 'en'] : ['en', 'zh-CN'],
       publisher: { '@id': orgId },
     })
@@ -199,6 +206,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       '@type': 'WebPage',
       '@id': `${pageUrl}#webpage`,
       url: pageUrl,
+      dateModified: GEO_PAGE_CONTENT_DATE_ISO,
       name: t.meta.title,
       description: t.meta.description,
       inLanguage: locale === 'zh' ? 'zh-CN' : 'en',
@@ -214,6 +222,8 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     updateJsonLdScript('ld-faq', {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
+      '@id': `${pageUrl}#faq`,
+      url: pageUrl,
       mainEntity: t.faqs.map((item) => ({
         '@type': 'Question',
         name: item.q,
@@ -222,6 +232,19 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
           text: item.a,
         },
       })),
+    })
+
+    updateJsonLdScript('ld-defined', {
+      '@context': 'https://schema.org',
+      '@type': 'DefinedTerm',
+      '@id': `${pageUrl}#infi-digital-avatar`,
+      name: t.geoDefinition.title,
+      description: t.geoDefinition.body,
+      inDefinedTermSet: {
+        '@type': 'DefinedTermSet',
+        name: t.hero.headline,
+        url: pageUrl,
+      },
     })
   }, [locale, t])
 
