@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { DownloadModal } from './components/DownloadModal'
 import { GEO_PAGE_CONTENT_DATE_ISO } from './content/geoPageDate.generated'
 import { SITE } from './content/siteContent'
@@ -393,11 +393,74 @@ function SiteFooter() {
 
 function App() {
   const [downloadOpen, setDownloadOpen] = useState(false)
+  const stageRef = useRef<HTMLElement | null>(null)
+  const activeSceneRef = useRef(0)
+  const wheelLockRef = useRef(false)
+  const lockTimerRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+
+    const getSections = () => Array.from(stage.querySelectorAll<HTMLElement>('.lx-story-section'))
+
+    const goToScene = (index: number) => {
+      const sections = getSections()
+      const targetIndex = Math.max(0, Math.min(index, sections.length - 1))
+      const target = sections[targetIndex]
+      if (!target) return
+
+      activeSceneRef.current = targetIndex
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+      stage.scrollTo({ top: target.offsetTop, behavior: motion })
+    }
+
+    const syncSceneFromScroll = () => {
+      const sections = getSections()
+      if (sections.length === 0) return
+
+      const firstSectionHeight = sections[0]?.offsetHeight || stage.clientHeight || 1
+      const progress = stage.scrollTop / firstSectionHeight
+      const nearestIndex = Math.max(0, Math.min(Math.round(progress), sections.length - 1))
+      activeSceneRef.current = nearestIndex
+    }
+
+    const unlock = () => {
+      wheelLockRef.current = false
+      if (lockTimerRef.current) {
+        window.clearTimeout(lockTimerRef.current)
+        lockTimerRef.current = null
+      }
+    }
+
+    const onWheel = (event: WheelEvent) => {
+      if (downloadOpen || window.matchMedia('(max-width: 900px)').matches) return
+      if (Math.abs(event.deltaY) < 18 || Math.abs(event.deltaY) < Math.abs(event.deltaX)) return
+
+      event.preventDefault()
+      if (wheelLockRef.current) return
+
+      wheelLockRef.current = true
+      const direction = event.deltaY > 0 ? 1 : -1
+      goToScene(activeSceneRef.current + direction)
+      lockTimerRef.current = window.setTimeout(unlock, 820)
+    }
+
+    stage.addEventListener('wheel', onWheel, { passive: false })
+    stage.addEventListener('scroll', syncSceneFromScroll, { passive: true })
+    syncSceneFromScroll()
+
+    return () => {
+      stage.removeEventListener('wheel', onWheel)
+      stage.removeEventListener('scroll', syncSceneFromScroll)
+      if (lockTimerRef.current) window.clearTimeout(lockTimerRef.current)
+    }
+  }, [downloadOpen])
 
   return (
     <div className={shell}>
       <Header />
-      <main className="lx-scroll-stage">
+      <main ref={stageRef} className="lx-scroll-stage">
         <HeroSection onDownloadClick={() => setDownloadOpen(true)} />
         <UniverseSection />
         <FeaturesSection />
