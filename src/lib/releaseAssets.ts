@@ -11,14 +11,14 @@ function isDownloadableAsset(name: string): boolean {
   if (lower.endsWith('.sha256') || lower.endsWith('.asc') || lower.endsWith('.sig')) return false
   if (lower.endsWith('.blockmap') || lower === 'latest-mac.yml' || lower === 'latest.yml')
     return false
-  if (/\.(exe|dmg|pkg|msi|appimage|deb|rpm)$/i.test(name)) return true
-  if (/win|windows|darwin|mac|linux|ubuntu/i.test(name)) return true
+  if (/\.(exe|dmg|pkg|msi|appimage|deb|rpm|apk|aab)$/i.test(name)) return true
+  if (/win|windows|darwin|mac|linux|ubuntu|android/i.test(name)) return true
   return false
 }
 
 function scoreAsset(name: string, c: ClientPlatform): number {
   const lower = name.toLowerCase()
-  if (c.os === 'ios' || c.os === 'android') return 0
+  if (c.os === 'ios') return 0
   if (c.os === 'unknown') return isDownloadableAsset(name) ? 10 : 0
 
   if (c.os === 'windows') {
@@ -64,6 +64,14 @@ function scoreAsset(name: string, c: ClientPlatform): number {
     return s
   }
 
+  if (c.os === 'android') {
+    if (!/\.(apk|aab)$/i.test(name) && !/android/i.test(lower)) return 0
+    let s = 100
+    if (/arm64|aarch64|v8a/i.test(lower)) s += 40
+    if (/universal/i.test(lower)) s += 35
+    return s
+  }
+
   return 0
 }
 
@@ -72,7 +80,7 @@ export function pickRecommendedAssets(
   client: ClientPlatform,
 ): { primary: ReleaseAsset | null; others: ReleaseAsset[] } {
   const filtered = assets.filter((a) => isDownloadableAsset(a.name))
-  if (client.os === 'ios' || client.os === 'android') return { primary: null, others: filtered }
+  if (client.os === 'ios') return { primary: null, others: filtered }
   if (filtered.length === 0) return { primary: null, others: [] }
 
   const ranked = [...filtered].sort((a, b) => scoreAsset(b.name, client) - scoreAsset(a.name, client))

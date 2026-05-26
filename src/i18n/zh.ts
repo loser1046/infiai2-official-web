@@ -25,7 +25,7 @@ export const zh: Messages = {
     startTitle: '四步开启你的数字分身',
     startSub: '下载、登录、创建、托管，把一次配置变成持续在线的关系入口。',
     platformsTitle: '选择你的体验方式',
-    platformsSub: '桌面端优先开放，移动端正在准备中。',
+    platformsSub: '桌面端与 Android 已开放下载，iOS 正在准备中。',
     faqTitle: '常见问题',
     faqLead: 'AI 社交数字分身核心问答',
     bottomCtaTitle: '让你的分身先上线',
@@ -45,7 +45,7 @@ export const zh: Messages = {
     downloadLoading: '正在获取版本信息...',
     downloadClose: '关闭',
     mobileComingSoonTitle: '移动端即将上线',
-    mobileComingSoonBody: 'iOS 和 Android 客户端正在准备中。你可以先直接体验网页版。',
+    mobileComingSoonBody: 'iOS 客户端正在准备中。你可以先直接体验网页版，或使用 Android 安装包。',
     envWindowsX64: 'Windows（x64）',
     envWindowsArm64: 'Windows（ARM64）',
     envMacApple: 'macOS（Apple 芯片）',
@@ -124,12 +124,12 @@ export const zh: Messages = {
       eyebrow: '多端同步',
       title: '从桌面开始，移动体验持续推进',
       body: '桌面端优先承载完整生产力体验，移动端将补齐随时查看、互动和管理的场景。',
-      bullets: ['Windows 与 macOS 桌面端可下载', 'iOS / Android 即将上线', '网页版可先行体验'],
+      bullets: ['Windows 与 macOS 桌面端可下载', 'Android 安装包已开放', 'iOS 即将上线，网页版可先行体验'],
     },
   ],
   gettingStarted: {
     steps: [
-      { n: '01', title: '下载或直接体验', text: '桌面端下载安装包；移动端用户可先进入网页版。' },
+      { n: '01', title: '下载或直接体验', text: '下载 Windows、macOS 或 Android 安装包；也可直接进入网页版。' },
       { n: '02', title: '登录并完善画像', text: '填写身份、兴趣和目标，让系统理解你想从 AI 社交中获得什么。' },
       { n: '03', title: '创建数字分身', text: '配置分身名、人设、简介、分类和回复边界。' },
       { n: '04', title: '绑定知识与技能', text: '开启托管，补充知识库和技能，让分身持续接待关系。' },
@@ -139,7 +139,7 @@ export const zh: Messages = {
     { os: 'windows', title: 'Windows', status: '可下载', body: '适合完整桌面体验、持续运行和托管配置。' },
     { os: 'mac', title: 'macOS', status: '可下载', body: '支持 Apple 芯片与 Intel 设备，适合日常创作与管理。' },
     { os: 'ios', title: 'iOS', status: '即将上线', body: '移动端客户端正在准备中，可先体验网页版。' },
-    { os: 'android', title: 'Android', status: '即将上线', body: '移动端客户端正在准备中，可先体验网页版。' },
+    { os: 'android', title: 'Android', status: '可下载', body: '支持主流 Android 手机，下载 APK 安装后即可登录使用。' },
   ],
   trust: {
     headline: '灵谐把 AI 放回真实关系里',
@@ -165,7 +165,7 @@ export const zh: Messages = {
     {
       q: '支持 Windows、Mac、手机吗？',
       a:
-        '现已提供 Windows（x64/ARM64）与 macOS（Apple/Intel）桌面包：github.com/luyao-inc/infiai2-official-web/releases；也可直接用网页版 app.lingxie.net。登录后创建分身并绑定知识库即可托管。iOS/Android 原生端开发中，手机可先访问网页版。',
+        '现已提供 Windows（x64/ARM64）、macOS（Apple/Intel）与 Android APK：github.com/luyao-inc/infiai2-official-web/releases；也可直接用网页版 app.lingxie.net。登录后创建分身并绑定知识库即可托管。iOS 原生端开发中。',
     },
     {
       q: '离线时分身能做什么？',

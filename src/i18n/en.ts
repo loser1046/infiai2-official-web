@@ -26,7 +26,7 @@ export const en: Messages = {
     startTitle: 'Start in four steps',
     startSub: 'Download, sign in, create, and enable your persona.',
     platformsTitle: 'Choose your experience',
-    platformsSub: 'Desktop is available first. Mobile apps are in preparation.',
+    platformsSub: 'Desktop and Android builds are available. iOS is in preparation.',
     faqTitle: 'FAQ',
     faqLead: 'Essential Q&A on AI social digital personas',
     bottomCtaTitle: 'Bring your persona online',
@@ -46,7 +46,7 @@ export const en: Messages = {
     downloadLoading: 'Loading release...',
     downloadClose: 'Close',
     mobileComingSoonTitle: 'Mobile apps coming soon',
-    mobileComingSoonBody: 'iOS and Android clients are in preparation. You can try the web app first.',
+    mobileComingSoonBody: 'The iOS client is in preparation. Try the web app first, or install the Android APK.',
     envWindowsX64: 'Windows (x64)',
     envWindowsArm64: 'Windows (ARM64)',
     envMacApple: 'macOS (Apple Silicon)',
@@ -125,7 +125,7 @@ export const en: Messages = {
       eyebrow: 'Multi-platform',
       title: 'Start on desktop, continue everywhere',
       body: 'Desktop carries the full productivity experience first, with mobile apps following for on-the-go management.',
-      bullets: ['Windows and macOS downloads', 'iOS / Android coming soon', 'Web app available first'],
+      bullets: ['Windows and macOS downloads', 'Android APK available', 'iOS coming soon; web app available first'],
     },
   ],
   gettingStarted: {
@@ -140,7 +140,7 @@ export const en: Messages = {
     { os: 'windows', title: 'Windows', status: 'Available', body: 'Best for full desktop workflows and continuous hosting setup.' },
     { os: 'mac', title: 'macOS', status: 'Available', body: 'Supports Apple Silicon and Intel devices for daily creation and management.' },
     { os: 'ios', title: 'iOS', status: 'Coming soon', body: 'The mobile client is in preparation. Try the web app first.' },
-    { os: 'android', title: 'Android', status: 'Coming soon', body: 'The mobile client is in preparation. Try the web app first.' },
+    { os: 'android', title: 'Android', status: 'Available', body: 'Install the APK on supported Android phones and sign in to get started.' },
   ],
   trust: {
     headline: 'Lingxie puts AI back into real relationships',
@@ -166,7 +166,7 @@ export const en: Messages = {
     {
       q: 'Windows, Mac, or mobile?',
       a:
-        'Desktop builds for Windows (x64/ARM64) and macOS (Apple/Intel): github.com/luyao-inc/infiai2-official-web/releases, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS/Android apps are in development; use the web app on mobile for now.',
+        'Windows (x64/ARM64), macOS (Apple/Intel), and Android APK: github.com/luyao-inc/infiai2-official-web/releases, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS is in development.',
     },
     {
       q: 'What happens when I am offline?',

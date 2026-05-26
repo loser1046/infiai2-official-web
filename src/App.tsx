@@ -3,6 +3,10 @@ import { DownloadModal } from './components/DownloadModal'
 import { GEO_PAGE_CONTENT_DATE_ISO } from './content/geoPageDate.generated'
 import { SITE } from './content/siteContent'
 import { useLocale } from './i18n/LocaleProvider'
+import type { PlatformItem } from './i18n/types'
+import type { ClientOS } from './lib/clientPlatform'
+
+const DOWNLOADABLE_PLATFORMS: ReadonlySet<PlatformItem['os']> = new Set(['windows', 'mac', 'android'])
 
 const shell = 'h-screen overflow-hidden bg-[#03050b] text-slate-300 antialiased'
 const container = 'mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8'
@@ -243,7 +247,7 @@ function StartSection() {
   )
 }
 
-function PlatformsSection({ onDownloadClick }: { onDownloadClick: () => void }) {
+function PlatformsSection({ onDownloadClick }: { onDownloadClick: (preferredOs?: ClientOS) => void }) {
   const { t } = useLocale()
   return (
     <section id="platforms" className="lx-story-section lx-story-platforms border-t border-white/[0.08]">
@@ -260,17 +264,38 @@ function PlatformsSection({ onDownloadClick }: { onDownloadClick: () => void }) 
             </button>
           </div>
           <div className="lx-platform-grid">
-            {t.platforms.map((platform) => (
-              <article key={platform.os} className="lx-platform-card">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-black text-white">{platform.title}</h3>
-                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${platform.os === 'ios' || platform.os === 'android' ? 'bg-amber-300/15 text-amber-200' : 'bg-emerald-300/15 text-emerald-200'}`}>
-                    {platform.status}
-                  </span>
-                </div>
-                <p className="mt-5 text-sm leading-7 text-slate-500">{platform.body}</p>
-              </article>
-            ))}
+            {t.platforms.map((platform) => {
+              const downloadable = DOWNLOADABLE_PLATFORMS.has(platform.os)
+              return (
+                <article
+                  key={platform.os}
+                  className={`lx-platform-card ${downloadable ? 'cursor-pointer transition hover:border-cyan-300/25 hover:bg-white/[0.03]' : ''}`}
+                  {...(downloadable
+                    ? {
+                        role: 'button',
+                        tabIndex: 0,
+                        onClick: () => onDownloadClick(platform.os),
+                        onKeyDown: (e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            onDownloadClick(platform.os)
+                          }
+                        },
+                      }
+                    : {})}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-lg font-black text-white">{platform.title}</h3>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold ${platform.os === 'ios' ? 'bg-amber-300/15 text-amber-200' : 'bg-emerald-300/15 text-emerald-200'}`}
+                    >
+                      {platform.status}
+                    </span>
+                  </div>
+                  <p className="mt-5 text-sm leading-7 text-slate-500">{platform.body}</p>
+                </article>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -397,6 +422,15 @@ function SiteFooter() {
 
 function App() {
   const [downloadOpen, setDownloadOpen] = useState(false)
+  const [downloadPreferredOs, setDownloadPreferredOs] = useState<ClientOS | undefined>()
+  const openDownload = (preferredOs?: ClientOS) => {
+    setDownloadPreferredOs(preferredOs)
+    setDownloadOpen(true)
+  }
+  const closeDownload = () => {
+    setDownloadOpen(false)
+    setDownloadPreferredOs(undefined)
+  }
   const stageRef = useRef<HTMLElement | null>(null)
   const activeSceneRef = useRef(0)
   const wheelLockRef = useRef(false)
@@ -465,16 +499,16 @@ function App() {
     <div className={shell}>
       <Header />
       <main ref={stageRef} className="lx-scroll-stage">
-        <HeroSection onDownloadClick={() => setDownloadOpen(true)} />
+        <HeroSection onDownloadClick={() => openDownload()} />
         <UniverseSection />
         <FeaturesSection />
         <StartSection />
-        <PlatformsSection onDownloadClick={() => setDownloadOpen(true)} />
+        <PlatformsSection onDownloadClick={openDownload} />
         <TrustSection />
         <FAQSection />
-        <FinalSection onDownloadClick={() => setDownloadOpen(true)} />
+        <FinalSection onDownloadClick={() => openDownload()} />
       </main>
-      <DownloadModal open={downloadOpen} onClose={() => setDownloadOpen(false)} />
+      <DownloadModal open={downloadOpen} onClose={closeDownload} preferredOs={downloadPreferredOs} />
     </div>
   )
 }

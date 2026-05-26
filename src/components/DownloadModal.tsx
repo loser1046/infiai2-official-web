@@ -2,11 +2,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { SITE } from '../content/siteContent'
 import { useLocale } from '../i18n/LocaleProvider'
-import { detectClientPlatform, type ClientPlatform } from '../lib/clientPlatform'
+import { detectClientPlatform, type ClientOS, type ClientPlatform } from '../lib/clientPlatform'
 import { fetchLatestRelease, parseGithubRepo, type GitHubLatestRelease } from '../lib/githubReleaseApi'
 import { formatBytes, pickRecommendedAssets, type ReleaseAsset } from '../lib/releaseAssets'
 
-type Props = { open: boolean; onClose: () => void }
+type Props = { open: boolean; onClose: () => void; preferredOs?: ClientOS }
 
 function envDescription(c: ClientPlatform, ui: ReturnType<typeof useLocale>['t']['ui']): string {
   if (c.os === 'windows' && c.arch === 'arm64') return ui.envWindowsArm64
@@ -27,15 +27,20 @@ function replacePlaceholders(s: string, map: Record<string, string>): string {
   return out
 }
 
-export function DownloadModal({ open, onClose }: Props) {
+export function DownloadModal({ open, onClose, preferredOs }: Props) {
   const { t, locale } = useLocale()
   const ui = t.ui
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState(false)
   const [release, setRelease] = useState<GitHubLatestRelease | null>(null)
 
-  const client = useMemo(() => detectClientPlatform(), [])
-  const isMobileComingSoon = client.os === 'ios' || client.os === 'android'
+  const detected = useMemo(() => detectClientPlatform(), [])
+  const client = useMemo(
+    (): ClientPlatform =>
+      preferredOs ? { os: preferredOs, arch: preferredOs === 'android' ? 'arm64' : detected.arch } : detected,
+    [detected, preferredOs],
+  )
+  const isIosComingSoon = client.os === 'ios'
   const repoParts = useMemo(() => parseGithubRepo(SITE.githubRepo), [])
 
   const { primary, others } = useMemo(() => {
@@ -49,7 +54,7 @@ export function DownloadModal({ open, onClose }: Props) {
     setLoading(true)
     setRelease(null)
 
-    if (isMobileComingSoon) {
+    if (isIosComingSoon) {
       setLoading(false)
       return
     }
@@ -74,7 +79,7 @@ export function DownloadModal({ open, onClose }: Props) {
     return () => {
       cancelled = true
     }
-  }, [open, repoParts, isMobileComingSoon])
+  }, [open, repoParts, isIosComingSoon])
 
   useEffect(() => {
     if (!open) return
@@ -149,7 +154,7 @@ export function DownloadModal({ open, onClose }: Props) {
         </p>
 
         <div className="mt-6">
-          {isMobileComingSoon ? (
+          {isIosComingSoon ? (
             <div className="rounded-2xl border border-amber-300/25 bg-amber-300/[0.08] p-5 text-center">
               <p className="text-lg font-semibold text-amber-100">{ui.mobileComingSoonTitle}</p>
               <p className="mt-2 text-sm leading-relaxed text-amber-100/70">{ui.mobileComingSoonBody}</p>
