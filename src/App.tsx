@@ -259,7 +259,7 @@ function PlatformsSection({ onDownloadClick }: { onDownloadClick: (preferredOs?:
               <h2 className={sectionTitle}>{t.ui.platformsTitle}</h2>
               <p className={sectionSub}>{t.ui.platformsSub}</p>
             </div>
-            <button type="button" className={primaryButton} onClick={onDownloadClick}>
+            <button type="button" className={primaryButton} onClick={() => onDownloadClick()}>
               {t.ui.download}
             </button>
           </div>
