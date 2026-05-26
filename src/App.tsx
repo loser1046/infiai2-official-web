@@ -380,8 +380,12 @@ function SiteFooter() {
       </div>
       <div className="lx-footer-right">
         <div className="flex flex-wrap justify-end gap-x-6 gap-y-2">
-          <a className="hover:text-white" href={SITE.appUrl} target="_blank" rel="noreferrer">{t.ui.directExperience}</a>
-          <a className="hover:text-white" href={SITE.downloadUrl} target="_blank" rel="noreferrer">{t.ui.download}</a>
+          <a className="hover:text-white" href={locale === 'en' ? '/en/terms/' : '/terms/'}>
+            {t.ui.termsOfService}
+          </a>
+          <a className="hover:text-white" href={locale === 'en' ? '/en/privacy/' : '/privacy/'}>
+            {t.ui.privacyPolicy}
+          </a>
         </div>
         <a className="lx-icp hover:text-white" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
           {locale === 'zh' ? '沪ICP备2025137719号-1' : 'ICP 2025137719-1'}

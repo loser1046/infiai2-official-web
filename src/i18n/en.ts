@@ -9,6 +9,8 @@ export const en: Messages = {
   ui: {
     download: 'Download',
     directExperience: 'Try Now',
+    termsOfService: 'Terms of Service',
+    privacyPolicy: 'Privacy Policy',
     comingSoon: 'Coming soon',
     navAria: 'Primary navigation',
     langAria: 'Language',

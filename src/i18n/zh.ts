@@ -9,6 +9,8 @@ export const zh: Messages = {
   ui: {
     download: '立即下载',
     directExperience: '直接体验',
+    termsOfService: '服务条款',
+    privacyPolicy: '隐私政策',
     comingSoon: '即将上线',
     navAria: '主导航',
     langAria: '语言切换',

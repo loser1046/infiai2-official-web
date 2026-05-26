@@ -26,6 +26,8 @@ export type Messages = {
   ui: {
     download: string
     directExperience: string
+    termsOfService: string
+    privacyPolicy: string
     comingSoon: string
     navAria: string
     langAria: string
