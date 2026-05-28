@@ -38,14 +38,14 @@ export const en: Messages = {
     downloadReleased: 'Released on {date}',
     downloadDetected: 'Detected: {env}',
     downloadOtherPlatforms: 'Other platforms',
-    downloadViewReleases: 'View all desktop installers',
-    downloadFetchError: 'Could not load the latest release. Try again or open the releases page.',
-    downloadNoInstallers: 'No installer assets in this release. See the releases page for other files.',
+    downloadViewReleases: 'View platform options',
+    downloadFetchError: 'Could not load the latest version. Try again later.',
+    downloadNoInstallers: 'No public installer is available right now.',
     downloadSmartScreenHint:
       'If Windows SmartScreen blocks the app, click “More info”, then “Run anyway”.',
     downloadLoading: 'Loading release...',
     downloadClose: 'Close',
-    mobileComingSoonTitle: 'Mobile apps coming soon',
+    mobileComingSoonTitle: 'iOS app coming soon',
     mobileComingSoonBody: 'The iOS client is in preparation. Try the web app first, or install the Android APK.',
     envWindowsX64: 'Windows (x64)',
     envWindowsArm64: 'Windows (ARM64)',
@@ -166,7 +166,7 @@ export const en: Messages = {
     {
       q: 'Windows, Mac, or mobile?',
       a:
-        'Windows (x64/ARM64), macOS (Apple/Intel), and Android APK: github.com/luyao-inc/infiai2-official-web/releases, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS is in development.',
+        'Windows, macOS, and Android installers are served from the website using public full-release records from version management, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS is in development.',
     },
     {
       q: 'What happens when I am offline?',

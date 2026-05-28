@@ -37,14 +37,14 @@ export const zh: Messages = {
     downloadReleased: '发布于 {date}',
     downloadDetected: '检测到的系统：{env}',
     downloadOtherPlatforms: '其他平台',
-    downloadViewReleases: '查看桌面端全部安装包',
-    downloadFetchError: '无法获取最新版本。请稍后重试，或直接前往发布页下载。',
-    downloadNoInstallers: '当前发布没有可用的安装包，请在发布页查看其他资源。',
+    downloadViewReleases: '查看多端体验',
+    downloadFetchError: '无法获取最新版本。请稍后重试。',
+    downloadNoInstallers: '当前没有可用的公开安装包。',
     downloadSmartScreenHint:
       '如果 Windows SmartScreen 阻止运行，请点击“更多信息”后选择“仍要运行”。',
     downloadLoading: '正在获取版本信息...',
     downloadClose: '关闭',
-    mobileComingSoonTitle: '移动端即将上线',
+    mobileComingSoonTitle: 'iOS 即将上线',
     mobileComingSoonBody: 'iOS 客户端正在准备中。你可以先直接体验网页版，或使用 Android 安装包。',
     envWindowsX64: 'Windows（x64）',
     envWindowsArm64: 'Windows（ARM64）',
@@ -165,7 +165,7 @@ export const zh: Messages = {
     {
       q: '支持 Windows、Mac、手机吗？',
       a:
-        '现已提供 Windows（x64/ARM64）、macOS（Apple/Intel）与 Android APK：github.com/luyao-inc/infiai2-official-web/releases；也可直接用网页版 app.lingxie.net。登录后创建分身并绑定知识库即可托管。iOS 原生端开发中。',
+        '现已提供 Windows、macOS 与 Android 安装包，官网下载入口会读取后台版本管理的公开全量版本；也可直接用网页版 app.lingxie.net。登录后创建分身并绑定知识库即可托管。iOS 原生端开发中。',
     },
     {
       q: '离线时分身能做什么？',

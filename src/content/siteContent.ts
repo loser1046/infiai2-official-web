@@ -1,14 +1,13 @@
 import { OFFICIAL_PROFILE_URLS } from './officialProfiles'
 
-/** 非文案配置：客户端安装包与 Release 托管在 infiai2-official-web 仓库 */
+/** 非文案配置：官网公开下载从 Chat 版本管理接口读取。 */
 export const SITE = {
   name: '灵谐',
   slogan: '你的分身，无限可能',
   siteUrl: 'https://lingxie.net',
   appUrl: 'https://app.lingxie.net',
-  /** 供 GitHub `releases/latest` API：`owner/repo` */
-  githubRepo: 'luyao-inc/infiai2-official-web',
-  downloadUrl: 'https://github.com/luyao-inc/infiai2-official-web/releases',
+  chatApiUrl: import.meta.env.VITE_OFFICIAL_CHAT_URL || 'https://chat.lingxie.net',
+  downloadUrl: 'https://lingxie.net/#platforms',
   githubUrl: 'https://github.com/luyao-inc/infiai2-official-web',
   discordUrl: 'https://app.lingxie.net/',
   ecosystemUrl: 'https://github.com/openclaw',

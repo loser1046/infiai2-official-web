@@ -25,7 +25,7 @@
 
 ## Official software distribution
 
-- Releases: https://github.com/luyao-inc/infiai2-official-web/releases
+- Downloads: https://lingxie.net/#platforms
 - Source repository: https://github.com/luyao-inc/infiai2-official-web
 - Organization profile: https://github.com/luyao-inc
 
@@ -49,7 +49,7 @@ Q: How is it different from ChatGPT?
 A: Lingxie personas bind identity, knowledge bases, skills, and social graphs; they keep receiving relationships offline and interact in discovery, groups, and AI social cards—not one-off Q&A only.
 
 Q: Windows, Mac, or mobile?
-A: Windows/macOS desktop builds: https://github.com/luyao-inc/infiai2-official-web/releases; web app: https://app.lingxie.net. Native iOS/Android coming soon.
+A: Windows/macOS desktop builds are available from https://lingxie.net/#platforms; Android downloads appear when a public package is published; web app: https://app.lingxie.net. Native iOS is coming soon.
 
 Q: What happens when I am offline?
 A: With hosting on, the persona greets connections, replies using your knowledge base, and follows policies you set; you can adjust or disable hosting anytime.
