@@ -264,7 +264,7 @@ function PlatformsSection({ onDownloadClick }: { onDownloadClick: () => void }) 
               <article key={platform.os} className="lx-platform-card">
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg font-black text-white">{platform.title}</h3>
-                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${platform.os === 'ios' || platform.os === 'android' ? 'bg-amber-300/15 text-amber-200' : 'bg-emerald-300/15 text-emerald-200'}`}>
+                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${platform.os === 'ios' ? 'bg-amber-300/15 text-amber-200' : 'bg-emerald-300/15 text-emerald-200'}`}>
                     {platform.status}
                   </span>
                 </div>

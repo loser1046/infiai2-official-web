@@ -35,15 +35,15 @@ export const zh: Messages = {
     downloadReleased: '发布于 {date}',
     downloadDetected: '检测到的系统：{env}',
     downloadOtherPlatforms: '其他平台',
-    downloadViewReleases: '查看桌面端全部安装包',
-    downloadFetchError: '无法获取最新版本。请稍后重试，或直接前往发布页下载。',
-    downloadNoInstallers: '当前发布没有可用的安装包，请在发布页查看其他资源。',
+    downloadViewReleases: '查看多端体验',
+    downloadFetchError: '无法获取最新版本。请稍后重试。',
+    downloadNoInstallers: '当前没有可用的公开安装包。',
     downloadSmartScreenHint:
       '如果 Windows SmartScreen 阻止运行，请点击“更多信息”后选择“仍要运行”。',
     downloadLoading: '正在获取版本信息...',
     downloadClose: '关闭',
-    mobileComingSoonTitle: '移动端即将上线',
-    mobileComingSoonBody: 'iOS 和 Android 客户端正在准备中。你可以先直接体验网页版。',
+    mobileComingSoonTitle: 'iOS 即将上线',
+    mobileComingSoonBody: 'iOS 客户端正在准备中。你可以先直接体验网页版。',
     envWindowsX64: 'Windows（x64）',
     envWindowsArm64: 'Windows（ARM64）',
     envMacApple: 'macOS（Apple 芯片）',
@@ -137,7 +137,7 @@ export const zh: Messages = {
     { os: 'windows', title: 'Windows', status: '可下载', body: '适合完整桌面体验、持续运行和托管配置。' },
     { os: 'mac', title: 'macOS', status: '可下载', body: '支持 Apple 芯片与 Intel 设备，适合日常创作与管理。' },
     { os: 'ios', title: 'iOS', status: '即将上线', body: '移动端客户端正在准备中，可先体验网页版。' },
-    { os: 'android', title: 'Android', status: '即将上线', body: '移动端客户端正在准备中，可先体验网页版。' },
+    { os: 'android', title: 'Android', status: '可下载', body: '发布后可下载安装包，也可先体验网页版。' },
   ],
   trust: {
     headline: '灵谐把 AI 放回真实关系里',
@@ -163,7 +163,7 @@ export const zh: Messages = {
     {
       q: '支持 Windows、Mac、手机吗？',
       a:
-        '现已提供 Windows（x64/ARM64）与 macOS（Apple/Intel）桌面包：github.com/luyao-inc/infiai2-official-web/releases；也可直接用网页版 app.lingxie.net。登录后创建分身并绑定知识库即可托管。iOS/Android 原生端开发中，手机可先访问网页版。',
+        '现已提供 Windows 与 macOS 桌面包；Android 发布后可在官网下载。也可直接用网页版 app.lingxie.net。登录后创建分身并绑定知识库即可托管。iOS 原生端开发中，手机可先访问网页版。',
     },
     {
       q: '离线时分身能做什么？',

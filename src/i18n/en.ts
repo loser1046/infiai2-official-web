@@ -36,15 +36,15 @@ export const en: Messages = {
     downloadReleased: 'Released on {date}',
     downloadDetected: 'Detected: {env}',
     downloadOtherPlatforms: 'Other platforms',
-    downloadViewReleases: 'View all desktop installers',
-    downloadFetchError: 'Could not load the latest release. Try again or open the releases page.',
-    downloadNoInstallers: 'No installer assets in this release. See the releases page for other files.',
+    downloadViewReleases: 'View platform options',
+    downloadFetchError: 'Could not load the latest version. Try again later.',
+    downloadNoInstallers: 'No public installer is available right now.',
     downloadSmartScreenHint:
       'If Windows SmartScreen blocks the app, click “More info”, then “Run anyway”.',
     downloadLoading: 'Loading release...',
     downloadClose: 'Close',
-    mobileComingSoonTitle: 'Mobile apps coming soon',
-    mobileComingSoonBody: 'iOS and Android clients are in preparation. You can try the web app first.',
+    mobileComingSoonTitle: 'iOS app coming soon',
+    mobileComingSoonBody: 'The iOS client is in preparation. You can try the web app first.',
     envWindowsX64: 'Windows (x64)',
     envWindowsArm64: 'Windows (ARM64)',
     envMacApple: 'macOS (Apple Silicon)',
@@ -138,7 +138,7 @@ export const en: Messages = {
     { os: 'windows', title: 'Windows', status: 'Available', body: 'Best for full desktop workflows and continuous hosting setup.' },
     { os: 'mac', title: 'macOS', status: 'Available', body: 'Supports Apple Silicon and Intel devices for daily creation and management.' },
     { os: 'ios', title: 'iOS', status: 'Coming soon', body: 'The mobile client is in preparation. Try the web app first.' },
-    { os: 'android', title: 'Android', status: 'Coming soon', body: 'The mobile client is in preparation. Try the web app first.' },
+    { os: 'android', title: 'Android', status: 'Available', body: 'Download the installer after release, or try the web app first.' },
   ],
   trust: {
     headline: 'Lingxie puts AI back into real relationships',
@@ -164,7 +164,7 @@ export const en: Messages = {
     {
       q: 'Windows, Mac, or mobile?',
       a:
-        'Desktop builds for Windows (x64/ARM64) and macOS (Apple/Intel): github.com/luyao-inc/infiai2-official-web/releases, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS/Android apps are in development; use the web app on mobile for now.',
+        'Desktop builds for Windows and macOS are available from the website. Android downloads appear after release, or use the web app at app.lingxie.net. Sign in, create a persona, attach a knowledge base, then enable hosting. Native iOS is in development; use the web app on mobile for now.',
     },
     {
       q: 'What happens when I am offline?',

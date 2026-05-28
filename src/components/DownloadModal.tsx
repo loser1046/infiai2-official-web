@@ -2,9 +2,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { SITE } from '../content/siteContent'
 import { useLocale } from '../i18n/LocaleProvider'
+import { fetchPublicDownloadVersions, pickDownloadVersion, type DownloadVersion } from '../lib/appVersionApi'
 import { detectClientPlatform, type ClientPlatform } from '../lib/clientPlatform'
-import { fetchLatestRelease, parseGithubRepo, type GitHubLatestRelease } from '../lib/githubReleaseApi'
-import { formatBytes, pickRecommendedAssets, type ReleaseAsset } from '../lib/releaseAssets'
+import { formatBytes } from '../lib/releaseAssets'
 
 type Props = { open: boolean; onClose: () => void }
 
@@ -27,43 +27,40 @@ function replacePlaceholders(s: string, map: Record<string, string>): string {
   return out
 }
 
+function packageLine(item: DownloadVersion, locale: string) {
+  return item.packageSize > 0 ? `${item.filename} · ${formatBytes(item.packageSize, locale)}` : item.filename
+}
+
 export function DownloadModal({ open, onClose }: Props) {
   const { t, locale } = useLocale()
   const ui = t.ui
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState(false)
-  const [release, setRelease] = useState<GitHubLatestRelease | null>(null)
+  const [versions, setVersions] = useState<DownloadVersion[]>([])
 
   const client = useMemo(() => detectClientPlatform(), [])
-  const isMobileComingSoon = client.os === 'ios' || client.os === 'android'
-  const repoParts = useMemo(() => parseGithubRepo(SITE.githubRepo), [])
+  const isIosComingSoon = client.os === 'ios'
 
   const { primary, others } = useMemo(() => {
-    if (!release?.assets?.length) return { primary: null, others: [] as ReleaseAsset[] }
-    return pickRecommendedAssets(release.assets, client)
-  }, [release, client])
+    if (!versions.length) return { primary: null, others: [] as DownloadVersion[] }
+    return pickDownloadVersion(versions, client.os, client.arch)
+  }, [versions, client])
 
   useEffect(() => {
     if (!open) return
     setErr(false)
     setLoading(true)
-    setRelease(null)
+    setVersions([])
 
-    if (isMobileComingSoon) {
-      setLoading(false)
-      return
-    }
-
-    if (!repoParts) {
-      setErr(true)
+    if (isIosComingSoon) {
       setLoading(false)
       return
     }
 
     let cancelled = false
-    fetchLatestRelease(repoParts.owner, repoParts.repo)
+    fetchPublicDownloadVersions(SITE.chatApiUrl)
       .then((data) => {
-        if (!cancelled) setRelease(data)
+        if (!cancelled) setVersions(data)
       })
       .catch(() => {
         if (!cancelled) setErr(true)
@@ -74,7 +71,7 @@ export function DownloadModal({ open, onClose }: Props) {
     return () => {
       cancelled = true
     }
-  }, [open, repoParts, isMobileComingSoon])
+  }, [open, isIosComingSoon])
 
   useEffect(() => {
     if (!open) return
@@ -89,8 +86,8 @@ export function DownloadModal({ open, onClose }: Props) {
 
   const dateLoc = locale === 'zh' ? 'zh-CN' : 'en-US'
   const published =
-    release?.published_at &&
-    new Date(release.published_at).toLocaleDateString(dateLoc, {
+    primary?.publishedAt &&
+    new Date(primary.publishedAt).toLocaleDateString(dateLoc, {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
@@ -100,11 +97,9 @@ export function DownloadModal({ open, onClose }: Props) {
   const detectedLine = replacePlaceholders(ui.downloadDetected, {
     env: envDescription(client, ui),
   })
-  const releasedLine =
-    published && replacePlaceholders(ui.downloadReleased, { date: published })
+  const releasedLine = published && replacePlaceholders(ui.downloadReleased, { date: published })
 
-  const showSmartScreen =
-    client.os === 'windows' && primary != null && /\.exe$/i.test(primary.name)
+  const showSmartScreen = client.os === 'windows' && primary != null && /\.exe$/i.test(primary.filename)
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -131,9 +126,9 @@ export function DownloadModal({ open, onClose }: Props) {
 
         <h2 id="ec-download-title" className="pr-10 text-xl font-semibold tracking-tight text-zinc-50 sm:text-2xl">
           {title}
-          {release?.tag_name ? (
+          {primary?.versionName ? (
             <span className="ml-2 inline-flex align-middle rounded-full border border-blue-500/40 bg-blue-500/15 px-2 py-0.5 text-xs font-semibold text-blue-300">
-              {release.tag_name}
+              {primary.versionName}
             </span>
           ) : null}
         </h2>
@@ -149,7 +144,7 @@ export function DownloadModal({ open, onClose }: Props) {
         </p>
 
         <div className="mt-6">
-          {isMobileComingSoon ? (
+          {isIosComingSoon ? (
             <div className="rounded-2xl border border-amber-300/25 bg-amber-300/[0.08] p-5 text-center">
               <p className="text-lg font-semibold text-amber-100">{ui.mobileComingSoonTitle}</p>
               <p className="mt-2 text-sm leading-relaxed text-amber-100/70">{ui.mobileComingSoonBody}</p>
@@ -171,7 +166,7 @@ export function DownloadModal({ open, onClose }: Props) {
           ) : (
             <>
               <a
-                href={primary.browser_download_url}
+                href={primary.url}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-4 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-4 transition hover:border-blue-500/40 hover:bg-white/[0.07]"
@@ -189,9 +184,7 @@ export function DownloadModal({ open, onClose }: Props) {
                 </span>
                 <span className="min-w-0 flex-1 text-left">
                   <span className="block font-semibold text-zinc-100">{envDescription(client, ui)}</span>
-                  <span className="mt-0.5 block truncate text-xs text-zinc-500">
-                    {primary.name} · {formatBytes(primary.size, dateLoc)}
-                  </span>
+                  <span className="mt-0.5 block truncate text-xs text-zinc-500">{packageLine(primary, dateLoc)}</span>
                 </span>
                 <span className="shrink-0 rounded-lg bg-gradient-to-r from-[#1d4ed8] via-[#2563eb] to-[#3b82f6] px-4 py-2 text-sm font-semibold text-white">
                   {ui.download}
@@ -209,15 +202,19 @@ export function DownloadModal({ open, onClose }: Props) {
             <summary className="cursor-pointer text-sm font-medium text-zinc-300">{ui.downloadOtherPlatforms}</summary>
             <ul className="mt-3 space-y-2 border-t border-white/[0.06] pt-3">
               {others.map((a) => (
-                <li key={a.name}>
+                <li key={a.id}>
                   <a
                     className="flex items-center justify-between gap-3 text-sm text-zinc-400 transition-colors hover:text-blue-300"
-                    href={a.browser_download_url}
+                    href={a.url}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <span className="min-w-0 truncate font-medium">{a.name}</span>
-                    <span className="shrink-0 text-xs text-zinc-500">{formatBytes(a.size, dateLoc)}</span>
+                    <span className="min-w-0 truncate font-medium">
+                      {a.title} {a.versionName}
+                    </span>
+                    <span className="shrink-0 text-xs text-zinc-500">
+                      {a.packageSize > 0 ? formatBytes(a.packageSize, dateLoc) : a.arch}
+                    </span>
                   </a>
                 </li>
               ))}
@@ -229,11 +226,8 @@ export function DownloadModal({ open, onClose }: Props) {
           <a
             className="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-400 underline-offset-4 transition-colors hover:text-blue-300 hover:underline"
             href={SITE.downloadUrl}
-            target="_blank"
-            rel="noreferrer"
           >
             {ui.downloadViewReleases}
-            <span aria-hidden="true">↗</span>
           </a>
         </p>
       </div>

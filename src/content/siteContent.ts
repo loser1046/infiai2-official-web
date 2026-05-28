@@ -6,9 +6,8 @@ export const SITE = {
   slogan: '你的分身，无限可能',
   siteUrl: 'https://lingxie.net',
   appUrl: 'https://app.lingxie.net',
-  /** 供 GitHub `releases/latest` API：`owner/repo` */
-  githubRepo: 'luyao-inc/infiai2-official-web',
-  downloadUrl: 'https://github.com/luyao-inc/infiai2-official-web/releases',
+  chatApiUrl: import.meta.env.VITE_OFFICIAL_CHAT_URL || 'https://chat.lingxie.net',
+  downloadUrl: 'https://lingxie.net/#platforms',
   githubUrl: 'https://github.com/luyao-inc/infiai2-official-web',
   discordUrl: 'https://app.lingxie.net/',
   ecosystemUrl: 'https://github.com/openclaw',

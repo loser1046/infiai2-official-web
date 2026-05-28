@@ -22,5 +22,5 @@ Humans: https://lingxie.net/humans.txt
 - Primary site: https://lingxie.net/
 - Product entry: https://app.lingxie.net/
 - Category: AI social digital-avatar platform
-- Current downloads: Windows and macOS desktop clients
-- Mobile status: iOS and Android clients coming soon
+- Current downloads: Windows and macOS desktop clients; Android appears when a public package is published
+- Mobile status: iOS client coming soon; Android download appears after public release
